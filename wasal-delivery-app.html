@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FFC629">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="وصال دليفري">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%20%22%D9%88%D8%B5%D8%A7%D9%84%20%D8%AF%D9%84%D9%8A%D9%81%D8%B1%D9%8A%20-%20Wasal%20Delivery%22%2C%20%22short_name%22%3A%20%22%D9%88%D8%B5%D8%A7%D9%84%20%D8%AF%D9%84%D9%8A%D9%81%D8%B1%D9%8A%22%2C%20%22start_url%22%3A%20%22.%22%2C%20%22display%22%3A%20%22standalone%22%2C%20%22background_color%22%3A%20%22%2317171A%22%2C%20%22theme_color%22%3A%20%22%23FFC629%22%2C%20%22orientation%22%3A%20%22portrait%22%2C%20%22icons%22%3A%20%5B%7B%22src%22%3A%20%22data%3Aimage/svg%2Bxml%2C%253Csvg%2520xmlns%253D%2527http%253A//www.w3.org/2000/svg%2527%2520viewBox%253D%25270%25200%2520200%2520200%2527%253E%253Crect%2520width%253D%2527200%2527%2520height%253D%2527200%2527%2520rx%253D%252742%2527%2520fill%253D%2527%2523111114%2527/%253E%253Ctext%2520x%253D%2527100%2527%2520y%253D%2527128%2527%2520font-size%253D%2527110%2527%2520text-anchor%253D%2527middle%2527%253E%25F0%259F%25A6%2585%253C/text%253E%253C/svg%253E%22%2C%20%22sizes%22%3A%20%22any%22%2C%20%22type%22%3A%20%22image/svg%2Bxml%22%2C%20%22purpose%22%3A%20%22any%20maskable%22%7D%5D%7D">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%3Crect%20width%3D%27200%27%20height%3D%27200%27%20rx%3D%2742%27%20fill%3D%27%23111114%27/%3E%3Ctext%20x%3D%27100%27%20y%3D%27128%27%20font-size%3D%27110%27%20text-anchor%3D%27middle%27%3E%F0%9F%A6%85%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20200%20200%27%3E%3Crect%20width%3D%27200%27%20height%3D%27200%27%20rx%3D%2742%27%20fill%3D%27%23111114%27/%3E%3Ctext%20x%3D%27100%27%20y%3D%27128%27%20font-size%3D%27110%27%20text-anchor%3D%27middle%27%3E%F0%9F%A6%85%3C/text%3E%3C/svg%3E">
+
+<title>وصال دليفري | Wasal Delivery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root{
+    --yellow:#FFC629;
+    --yellow-dark:#F0AF00;
+    --black:#17171A;
+    --charcoal:#26262B;
+    --red:#E63946;
+    --green:#1FA35C;
+    --green-bg:#E5F7ED;
+    --blue:#2563EB;
+    --blue-bg:#E8EFFE;
+    --amber:#B45309;
+    --amber-bg:#FEF3C7;
+    --gray-bg:#F4F5F7;
+    --gray-line:#E7E8EC;
+    --text:#1A1A1E;
+    --text-mut:#7A7A85;
+    --white:#fff;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Cairo',sans-serif;
+    background:var(--gray-bg);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+  }
+  button, input, select{font-family:'Cairo',sans-serif;}
+  ::selection{background:var(--yellow);}
+
+  /* ---------- top shell ---------- */
+  .shell{min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+  .brandbar{
+    width:100%;
+    background:var(--black);
+    color:var(--white);
+    padding:14px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    position:sticky;
+    top:0;
+    z-index:50;
+    flex-wrap:wrap;
+  }
+  .brandbar .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;}
+  .brandbar .logo .mark{
+    width:34px;height:34px;border-radius:10px;
+    background:linear-gradient(135deg,var(--yellow),var(--yellow-dark));
+    display:flex;align-items:center;justify-content:center;font-size:18px;
+    box-shadow:0 0 0 2px var(--red) inset;
+  }
+  .brandbar .logo small{display:block;font-weight:500;font-size:10px;color:#B9B9C2;letter-spacing:.5px;}
+  .tabs{display:flex;gap:6px;background:#0000004d;padding:4px;border-radius:12px;}
+  .tabs button{
+    border:none;background:transparent;color:#C9C9D2;
+    padding:9px 14px;border-radius:9px;font-weight:700;font-size:13px;cursor:pointer;
+    transition:.15s;display:flex;align-items:center;gap:6px;
+  }
+  .tabs button.active{background:var(--yellow);color:var(--black);}
+  .tabs button:not(.active):hover{color:var(--white);}
+
+  .stage{
+    width:100%;
+    max-width:1180px;
+    padding:28px 18px 60px;
+    display:flex;
+    justify-content:center;
+  }
+
+  /* ---------- phone frame ---------- */
+  .phone-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;}
+  .phone-frame{
+    width:340px;
+    height:696px;
+    background:var(--black);
+    border-radius:44px;
+    padding:12px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.4), 0 0 0 1px #00000010;
+    position:relative;
+  }
+  .phone-notch{
+    position:absolute;top:12px;left:50%;transform:translateX(-50%);
+    width:120px;height:22px;background:var(--black);border-radius:0 0 16px 16px;z-index:5;
+  }
+  .phone-screen{
+    width:100%;height:100%;
+    background:var(--white);
+    border-radius:32px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    position:relative;
+    display:flex;flex-direction:column;
+    scrollbar-width:none;
+  }
+  .phone-screen::-webkit-scrollbar{display:none;}
+  .statusbar{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:14px 22px 4px;font-size:12px;font-weight:700;color:var(--text);flex-shrink:0;
+  }
+  .caption{font-size:12px;color:var(--text-mut);font-weight:700;text-align:center;}
+
+  /* ---------- generic bits ---------- */
+  .px{padding-left:18px;padding-right:18px;}
+  .screen-body{flex:1;display:flex;flex-direction:column;padding:6px 18px 18px;}
+  .app-head{
+    background:var(--black);color:var(--white);
+    padding:16px 18px;display:flex;align-items:center;justify-content:space-between;
+    flex-shrink:0;
+  }
+  .app-head .word{font-weight:800;font-size:16px;}
+  .app-head .word span{color:var(--yellow);}
+  .back-row{display:flex;align-items:center;gap:10px;padding:8px 4px 12px;flex-shrink:0;}
+  .back-btn{
+    width:32px;height:32px;border-radius:50%;background:var(--gray-bg);border:none;
+    display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;color:var(--text);
+  }
+  .screen-title{font-weight:800;font-size:16px;}
+
+  h1,h2,h3,p{margin:0;}
+  .muted{color:var(--text-mut);}
+  .center{text-align:center;}
+
+  .btn{
+    border:none;border-radius:13px;padding:13px 16px;font-weight:800;font-size:14.5px;
+    cursor:pointer;transition:.12s; width:100%;display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .btn:active{transform:scale(.98);}
+  .btn-primary{background:var(--yellow);color:var(--black);}
+  .btn-primary:hover{background:var(--yellow-dark);}
+  .btn-dark{background:var(--black);color:var(--white);}
+  .btn-green{background:var(--green);color:var(--white);}
+  .btn-red{background:var(--red);color:var(--white);}
+  .btn-outline{background:var(--white);color:var(--text);border:1.5px solid var(--gray-line);}
+  .btn-ghost{background:var(--gray-bg);color:var(--text);}
+  .btn-sm{padding:9px 12px;font-size:12.5px;border-radius:10px;}
+  .btn-row{display:flex;gap:10px;}
+
+  .field{margin-bottom:12px;}
+  .field label{display:block;font-size:12.5px;font-weight:700;color:var(--text-mut);margin-bottom:6px;}
+  .field input, .field select{
+    width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--gray-line);
+    font-size:14px;background:var(--gray-bg);color:var(--text);outline:none;
+  }
+  .field input:focus, .field select:focus{border-color:var(--yellow-dark);background:var(--white);}
+
+  .card{background:var(--white);border:1px solid var(--gray-line);border-radius:var(--radius);padding:14px;}
+  .card + .card{margin-top:10px;}
+  .shadow-card{box-shadow:0 6px 18px -8px rgba(0,0,0,.15);border:1px solid var(--gray-line);}
+
+  .badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;padding:5px 10px;border-radius:20px;}
+  .badge-pending{background:var(--amber-bg);color:var(--amber);}
+  .badge-accepted{background:var(--blue-bg);color:var(--blue);}
+  .badge-transit{background:#E0F2FE;color:#0369A1;}
+  .badge-delivered{background:var(--green-bg);color:var(--green);}
+  .badge-cancelled{background:#FEE2E2;color:#B91C1C;}
+
+  .row{display:flex;align-items:center;justify-content:space-between;}
+  .chip{
+    background:var(--gray-bg);border-radius:12px;padding:12px 8px;text-align:center;font-size:11.5px;font-weight:700;
+    display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;border:1.5px solid transparent;
+  }
+  .chip:hover{border-color:var(--yellow);}
+  .chip .ic{font-size:20px;}
+  .chips-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+
+  .avatar{
+    width:40px;height:40px;border-radius:50%;background:var(--black);color:var(--yellow);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0;
+  }
+
+  .empty{padding:40px 10px;text-align:center;color:var(--text-mut);}
+  .empty .ic{font-size:34px;display:block;margin-bottom:10px;}
+
+  /* timeline */
+  .timeline{position:relative;padding-right:26px;}
+  .timeline::before{content:'';position:absolute;right:9px;top:6px;bottom:6px;width:2px;background:var(--gray-line);}
+  .tl-item{position:relative;padding-bottom:20px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-dot{position:absolute;right:-26px;top:2px;width:20px;height:20px;border-radius:50%;background:var(--white);border:3px solid var(--gray-line);display:flex;align-items:center;justify-content:center;}
+  .tl-item.done .tl-dot{border-color:var(--green);background:var(--green);}
+  .tl-item.current .tl-dot{border-color:var(--yellow-dark);background:var(--yellow);}
+  .tl-label{font-weight:700;font-size:13.5px;}
+  .tl-time{font-size:11.5px;color:var(--text-mut);margin-top:2px;}
+
+  /* route box */
+  .route-box{
+    background:linear-gradient(180deg,#EAF3FF,#F4F8FF);border-radius:16px;padding:18px 16px;position:relative;overflow:hidden;
+    border:1px solid #DCE8FB;
+  }
+  .route-line{display:flex;flex-direction:column;gap:0;margin-top:8px;}
+  .route-point{display:flex;align-items:center;gap:10px;padding:6px 0;}
+  .route-point .dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+  .route-point.from .dot{background:var(--black);}
+  .route-point.to .dot{background:var(--red);}
+  .route-connector{width:2px;height:26px;background:repeating-linear-gradient(180deg,#9AAFCB 0 4px,transparent 4px 8px);margin-right:5px;}
+
+  /* bottom nav */
+  .bottom-nav{
+    display:flex;border-top:1px solid var(--gray-line);background:var(--white);flex-shrink:0;
+  }
+  .bottom-nav button{
+    flex:1;border:none;background:transparent;padding:10px 4px 12px;display:flex;flex-direction:column;
+    align-items:center;gap:3px;font-size:10.5px;font-weight:700;color:var(--text-mut);cursor:pointer;
+  }
+  .bottom-nav button .ic{font-size:19px;}
+  .bottom-nav button.active{color:var(--black);}
+  .bottom-nav button.active .ic{filter:drop-shadow(0 0 0 var(--yellow));}
+
+  /* ---------- admin dashboard ---------- */
+  .admin-wrap{width:100%;max-width:1180px;display:flex;gap:20px;}
+  .admin-login-wrap{width:100%;display:flex;justify-content:center;padding-top:40px;}
+  .admin-login-card{
+    width:360px;background:var(--white);border-radius:20px;padding:32px 26px;box-shadow:0 20px 50px -20px rgba(0,0,0,.25);
+    border:1px solid var(--gray-line);
+  }
+  .sidebar{
+    width:220px;background:var(--black);border-radius:18px;padding:18px 14px;height:fit-content;
+    display:flex;flex-direction:column;gap:4px;flex-shrink:0;
+  }
+  .sidebar .side-logo{color:var(--white);font-weight:800;padding:6px 10px 18px;font-size:15px;}
+  .sidebar .side-logo span{color:var(--yellow);}
+  .sidebar button{
+    text-align:right;background:transparent;border:none;color:#C9C9D2;padding:11px 12px;border-radius:11px;
+    font-weight:700;font-size:13.5px;cursor:pointer;display:flex;align-items:center;gap:10px;
+  }
+  .sidebar button.active{background:var(--yellow);color:var(--black);}
+  .sidebar button:not(.active):hover{background:#ffffff14;color:var(--white);}
+  .sidebar .logout{margin-top:14px;color:var(--red);}
+
+  .admin-main{flex:1;min-width:0;}
+  .admin-topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px;}
+  .admin-topline h2{font-size:20px;font-weight:800;}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+  .stat-card{background:var(--white);border-radius:16px;padding:18px;border:1px solid var(--gray-line);}
+  .stat-card .num{font-size:26px;font-weight:900;}
+  .stat-card .lbl{font-size:12.5px;color:var(--text-mut);font-weight:700;margin-top:4px;}
+  .stat-card.c1 .num{color:var(--green);}
+  .stat-card.c2 .num{color:var(--blue);}
+  .stat-card.c3 .num{color:var(--amber);}
+  .stat-card.c4 .num{color:var(--red);}
+
+  table.admtable{width:100%;border-collapse:collapse;background:var(--white);border-radius:16px;overflow:hidden;border:1px solid var(--gray-line);}
+  table.admtable th{background:var(--gray-bg);font-size:12px;color:var(--text-mut);text-align:right;padding:12px 14px;font-weight:800;}
+  table.admtable td{padding:12px 14px;font-size:13.5px;border-top:1px solid var(--gray-line);}
+  table.admtable tr:hover td{background:#FAFAFB;}
+
+  .filter-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+  .filter-tabs button{
+    border:1.5px solid var(--gray-line);background:var(--white);padding:8px 16px;border-radius:20px;
+    font-weight:700;font-size:12.5px;cursor:pointer;color:var(--text-mut);
+  }
+  .filter-tabs button.active{background:var(--black);color:var(--yellow);border-color:var(--black);}
+
+  .panel{background:var(--white);border-radius:16px;border:1px solid var(--gray-line);padding:18px;}
+  .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+  .bar-row .bar-lbl{width:110px;font-size:12.5px;font-weight:700;color:var(--text-mut);flex-shrink:0;}
+  .bar-track{flex:1;height:14px;background:var(--gray-bg);border-radius:8px;overflow:hidden;}
+  .bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--yellow),var(--yellow-dark));}
+  .bar-row .bar-val{width:34px;text-align:left;font-weight:800;font-size:12.5px;}
+
+  .zone-row{display:grid;grid-template-columns:1.4fr .7fr .9fr .8fr;gap:10px;align-items:center;padding:10px 4px;border-top:1px solid var(--gray-line);}
+  .zone-row.head{border-top:none;font-size:11.5px;color:var(--text-mut);font-weight:800;}
+  .zone-row input{width:100%;padding:8px 10px;border-radius:9px;border:1.5px solid var(--gray-line);font-size:13px;background:var(--gray-bg);}
+
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+    background:var(--black);color:var(--white);padding:12px 22px;border-radius:30px;font-weight:700;font-size:13.5px;
+    box-shadow:0 10px 30px -10px rgba(0,0,0,.5);z-index:200;opacity:0;pointer-events:none;transition:.25s;display:flex;align-items:center;gap:8px;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,-6px);}
+
+  /* ---------- fantasy polish: transitions, live map, signature, confetti ---------- */
+  .fade-in{flex:1;display:flex;flex-direction:column;animation:fadeSlide .32s cubic-bezier(.2,.8,.3,1);}
+  @keyframes fadeSlide{from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);}}
+
+  .route-box.live{background:linear-gradient(180deg,#FFF8E1,#FFFDF6);border:1px solid #FDE68A;}
+  .live-pill{background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:4px 9px;border-radius:12px;display:inline-flex;align-items:center;gap:5px;}
+  .pulse-dot{width:6px;height:6px;border-radius:50%;background:#fff;display:inline-block;animation:pulseDot 1.1s infinite;}
+  @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.35;transform:scale(.7);}}
+  .live-track{position:relative;height:8px;background:#F3D98455;border-radius:6px;margin-top:16px;direction:ltr;}
+  .live-progress{position:absolute;top:0;left:0;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--yellow-dark),var(--yellow));transition:width 1s ease;}
+  .live-bike{position:absolute;top:-15px;transform:translateX(50%);font-size:20px;transition:left 1s ease;filter:drop-shadow(0 3px 4px rgba(0,0,0,.25));}
+  .live-eta{display:flex;justify-content:space-between;margin-top:10px;}
+
+  #sigCanvas{width:100%;height:120px;display:block;background:var(--gray-bg);border-radius:12px;border:1.5px dashed var(--gray-line);touch-action:none;cursor:crosshair;}
+  .sig-thumb{width:100%;height:70px;object-fit:contain;background:var(--gray-bg);border-radius:10px;border:1px solid var(--gray-line);}
+
+  .confetti-wrap{position:relative;height:0;overflow:visible;}
+  .confetti-piece{position:absolute;top:-14px;width:7px;height:13px;opacity:.95;animation:confettiFall 1.5s ease-in forwards;border-radius:2px;}
+  @keyframes confettiFall{to{transform:translateY(230px) rotate(340deg);opacity:0;}}
+
+  .sparkline-wrap{width:100%;overflow:hidden;}
+  .glow-badge{box-shadow:0 0 0 4px #FFC62922;}
+
+  /* dark mode */
+  body.dark{background:#0E0E11;}
+  body.dark .phone-screen, body.dark .admin-main .panel, body.dark .stat-card, body.dark .card,
+  body.dark table.admtable, body.dark .admin-login-card, body.dark .zone-row input, body.dark .field input,
+  body.dark .field select{background:#1B1B20;color:#EDEDF2;border-color:#2C2C33;}
+  body.dark .muted, body.dark .text-mut, body.dark table.admtable th{color:#9A9AA5 !important;}
+  body.dark table.admtable th{background:#141417;}
+  body.dark table.admtable td{border-color:#2C2C33;}
+  body.dark .chip{background:#1B1B20;color:#EDEDF2;}
+  body.dark .bottom-nav{background:#1B1B20;border-color:#2C2C33;}
+  body.dark .bottom-nav button{color:#8A8A94;}
+  body.dark .bottom-nav button.active{color:#fff;}
+  body.dark .filter-tabs button{background:#1B1B20;color:#9A9AA5;border-color:#2C2C33;}
+  body.dark .route-box{background:#151519;border-color:#2C2C33;}
+  body.dark .route-box.live{background:linear-gradient(180deg,#241f0c,#17140a);border-color:#4a3d10;}
+  body.dark .empty{color:#8A8A94;}
+  body.dark #sigCanvas{background:#141417;border-color:#3a3a42;}
+  .topbtn{
+    width:38px;height:38px;border-radius:50%;border:none;background:#ffffff14;color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex-shrink:0;
+  }
+  .topbtn.active{background:var(--yellow);color:var(--black);}
+  .topctrls{display:flex;gap:8px;align-items:center;}
+  .search-input{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--gray-line);background:var(--gray-bg);font-size:13.5px;margin-bottom:12px;}
+
+  /* chat */
+  .chat-row{display:flex;flex-direction:column;margin-bottom:2px;}
+  .chat-row.mine{align-items:flex-end;}
+  .chat-row.theirs{align-items:flex-start;}
+  .chat-bubble{max-width:78%;padding:9px 13px;border-radius:16px;font-size:12.5px;line-height:1.5;}
+  .chat-bubble.mine{background:var(--yellow);color:var(--black);border-bottom-left-radius:4px;}
+  .chat-bubble.theirs{background:var(--gray-bg);color:var(--text);border-bottom-right-radius:4px;}
+  .chat-time{font-size:9.5px;color:var(--text-mut);margin-top:2px;}
+  .chip-sm{background:var(--gray-bg);border:1px solid var(--gray-line);border-radius:14px;padding:6px 11px;font-size:11.5px;font-weight:700;cursor:pointer;color:var(--text);}
+
+  /* switch */
+  .switch-pill{width:46px;height:26px;border-radius:20px;background:var(--gray-line);position:relative;cursor:pointer;border:none;flex-shrink:0;}
+  .switch-pill.on{background:var(--green);}
+  .switch-pill .knob{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.3);}
+  .switch-pill.on .knob{right:23px;}
+
+  /* donut */
+  .donut-hole{position:absolute;inset:18px;background:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+  body.dark .donut-hole{background:#1B1B20;}
+
+  /* live map */
+  .live-map-el{width:100%;background:var(--gray-bg);position:relative;z-index:1;}
+  .leaflet-container{font-family:'Cairo',sans-serif;background:#EAF3FF;}
+  .leaflet-control-attribution{font-size:9px !important;}
+  .map-card{border-radius:14px;overflow:hidden;border:1px solid var(--gray-line);margin-top:10px;}
+  body.dark .leaflet-tile-pane{filter:invert(92%) hue-rotate(180deg) brightness(0.94) contrast(90%);}
+  body.dark .leaflet-control-attribution, body.dark .leaflet-control-zoom a{background:#1B1B20;color:#ddd;}
+  .map-fab{
+    position:absolute;bottom:10px;left:10px;z-index:2;background:var(--black);color:#fff;border:none;
+    border-radius:20px;padding:7px 13px;font-size:11px;font-weight:800;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.3);
+  }
+  .map-wrap{position:relative;}
+  .offline-banner{background:#B91C1C;color:#fff;text-align:center;padding:7px 10px;font-size:12px;font-weight:800;width:100%;}
+
+  .mode-switch{display:flex;gap:6px;padding:12px 14px 2px;flex-shrink:0;}
+  .mode-seg{flex:1;border:none;background:var(--gray-bg);color:var(--text-mut);padding:10px 6px;border-radius:11px;font-size:12px;font-weight:800;cursor:pointer;transition:.15s;}
+  .mode-seg.active{background:var(--black);color:var(--yellow);}
+  body.dark .mode-seg{background:#1B1B20;color:#9A9AA5;}
+
+  @media(max-width:1060px){
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+    .admin-wrap{flex-direction:column;}
+    .sidebar{width:100%;flex-direction:row;overflow-x:auto;}
+    .sidebar .side-logo{display:none;}
+    .sidebar .logout{margin-top:0;}
+  }
+  @media(max-width:400px){
+    .phone-frame{width:100%;max-width:340px;height:640px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================= STATE ============================= */
+let orderIdCounter = 1259;
+
+const HUB = {lat:27.5667, lng:30.8167, name:'مركز وصال — ديروط'};
+const zones = [
+  {id:'z1', name:'ديروط (داخل المدينة)', price:15, distance:5,  lat:27.5667, lng:30.8167},
+  {id:'z2', name:'ديروط (أطراف المدينة)', price:20, distance:8,  lat:27.5860, lng:30.8410},
+  {id:'z3', name:'ملوي', price:50, distance:22, lat:27.7333, lng:30.8500},
+  {id:'z4', name:'أسيوط', price:80, distance:35, lat:27.1809, lng:31.1837},
+  {id:'z5', name:'أسيوط (مراكز)', price:120, distance:55, lat:27.2300, lng:31.2200},
+  {id:'z6', name:'المنيا (مراكز)', price:150, distance:70, lat:28.0871, lng:30.7618},
+];
+
+const orderTypes = ['طرد', 'مستندات', 'أكل جاهز', 'أدوية'];
+const purposeTypes = ['توصيل عادي', 'استرجاع شحنة', 'تبديل منتج'];
+
+const shippingPackages = [
+  {id:'p1', name:'باقة أساسية', count:10, price:300, bonus:50, note:'مناسبة للتجار الجدد'},
+  {id:'p2', name:'باقة بلس', count:30, price:800, bonus:180, note:'الأكثر اشتراكاً', highlight:true},
+  {id:'p3', name:'باقة برو', count:100, price:2400, bonus:650, note:'لأصحاب المتاجر الكبيرة'},
+];
+
+const quickCategories = [
+  {label:'مطاعم', ic:'🍔', type:'أكل جاهز'},
+  {label:'صيدليات', ic:'💊', type:'أدوية'},
+  {label:'متاجر', ic:'🛍️', type:'طرد'},
+  {label:'توصيل', ic:'📦', type:'مستندات'},
+];
+
+function mkOrder(id,status,customerName,fromTxt,toZoneId,type,courierId,dayOffset,history,extra){
+  extra = extra || {};
+  const z = zones.find(zz=>zz.id===toZoneId);
+  return {
+    id, status, customerName,
+    from:fromTxt, toZoneId, toName:z.name, price:z.price, distance:z.distance, type,
+    courierId, createdAt:new Date(Date.now() - dayOffset*86400000),
+    history,
+    purpose: extra.purpose || 'توصيل عادي',
+    codAmount: extra.codAmount || 0,
+    rating: extra.rating || null,
+    messages: extra.messages || []
+  };
+}
+
+const state = {
+  role:'app',
+  appMode:'customer',
+  zones,
+  customers:[
+    {name:'سيف', phone:'01000000001'},
+    {name:'أحمد محمد', phone:'01234567890'},
+    {name:'أميرة مصطفى', phone:'01098765432'},
+    {name:'سعيد علي', phone:'01112345678'},
+    {name:'فاطمة محمود', phone:'01055544332'},
+    {name:'خالد عبدالله', phone:'01277899000'},
+  ],
+  couriers:[
+    {id:1, name:'أحمد محمد', phone:'01234567890'}
+  ],
+  orders:[
+    mkOrder(1258,'delivered','خالد عبدالله','شارع النيل، المنيا','z6','طرد',1,1,[
+      {label:'تم إنشاء الطلب وبانتظار مندوب', time:'09:10 ص'},
+      {label:'تم قبول الطلب من المندوب', time:'09:20 ص'},
+      {label:'المندوب في الطريق للعميل', time:'09:35 ص'},
+      {label:'تم تسليم الشحنة بنجاح', time:'10:40 ص'},
+    ],{codAmount:350, rating:5}),
+    mkOrder(1257,'delivered','سيف','شارع الجمهورية، أسيوط','z3','أدوية',1,1,[
+      {label:'تم إنشاء الطلب وبانتظار مندوب', time:'11:00 ص'},
+      {label:'تم قبول الطلب من المندوب', time:'11:05 ص'},
+      {label:'المندوب في الطريق للعميل', time:'11:15 ص'},
+      {label:'تم تسليم الشحنة بنجاح', time:'11:50 ص'},
+    ],{codAmount:0, rating:4}),
+    mkOrder(1256,'in_transit','محمد علي','ميدان المحطة، ملوي','z5','أكل جاهز',1,0,[
+      {label:'تم إنشاء الطلب وبانتظار مندوب', time:'10:05 ص'},
+      {label:'تم قبول الطلب من المندوب', time:'10:12 ص'},
+      {label:'المندوب في الطريق للعميل', time:'10:35 ص'},
+    ],{codAmount:220, messages:[
+      {sender:'courier', text:'أنا في الطريق إليك دلوقتي 🏍️', time:'10:36 ص'},
+      {sender:'customer', text:'تمام، في انتظارك', time:'10:37 ص'}
+    ]}),
+    mkOrder(1255,'accepted','سارة يوسف','حي الزهور، ديروط','z2','مستندات',1,0,[
+      {label:'تم إنشاء الطلب وبانتظار مندوب', time:'10:20 ص'},
+      {label:'تم قبول الطلب من المندوب', time:'10:25 ص'},
+    ],{codAmount:0}),
+    mkOrder(1254,'pending','سيف','شارع الساحل، ديروط','z4','طرد',null,0,[
+      {label:'تم إنشاء الطلب وبانتظار مندوب', time:'11:40 ص'},
+    ],{codAmount:150, purpose:'توصيل عادي'}),
+  ],
+  customer:{ loggedIn:false, name:'', phone:'', screen:'splash', draft:{}, viewOrderId:null, presetType:null,
+    wallet:250, unreadNotifs:2, reorderPrefill:null, onboardStep:0,
+    walletTx:[
+      {label:'رصيد ترحيبي', amount:250, time:'أمس', type:'credit'},
+      {label:'تفعيل باقة أساسية', amount:-300, time:'أول أمس', type:'debit'},
+    ],
+    notifications:[
+      {ic:'📦', text:'طلبك #1257 تم تسليمه بنجاح', time:'أمس'},
+      {ic:'🏍️', text:'مندوب في الطريق لاستلام طلبك #1254', time:'اليوم'},
+    ],
+    savedAddresses:[
+      {label:'المنزل', address:'شارع الجمهورية، أسيوط'},
+      {label:'الشغل', address:'ميدان المحطة، ديروط'},
+    ],
+    guestTrackResult:undefined, guestTrackId:''
+  },
+  courier:{ loggedIn:false, name:'', screen:'splash', assignedOrderId:null, online:true },
+  admin:{ loggedIn:false, screen:'dashboard', ordersFilter:'all' },
+};
+
+/* ============================= HELPERS ============================= */
+const $ = id => document.getElementById(id);
+
+function nowTime(){
+  const d = new Date();
+  let h = d.getHours();
+  const m = d.getMinutes().toString().padStart(2,'0');
+  const ampm = h>=12 ? 'م' : 'ص';
+  h = h % 12; if(h===0) h=12;
+  return h+':'+m+' '+ampm;
+}
+function isToday(d){ return new Date(d).toDateString() === new Date().toDateString(); }
+function money(n){ return n + ' جنيه'; }
+function initials(name){ return (name||'?').trim().charAt(0); }
+
+let toastTimer=null;
+function toast(msg, icon){
+  const t = $('toast');
+  t.innerHTML = (icon||'✅') + ' <span>'+msg+'</span>';
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+function statusMeta(status){
+  return {
+    pending:{label:'بانتظار مندوب', cls:'badge-pending', ic:'⏳'},
+    accepted:{label:'تم القبول', cls:'badge-accepted', ic:'✅'},
+    in_transit:{label:'في الطريق', cls:'badge-transit', ic:'🏍️'},
+    delivered:{label:'تم التسليم', cls:'badge-delivered', ic:'📦'},
+    cancelled:{label:'ملغي', cls:'badge-cancelled', ic:'🚫'},
+  }[status];
+}
+function badge(status){
+  const m = statusMeta(status);
+  return '<span class="badge '+m.cls+'">'+m.ic+' '+m.label+'</span>';
+}
+function getOrder(id){ return state.orders.find(o=>o.id===id); }
+
+/* ---------- sound ---------- */
+function playPing(freq){
+  try{
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    const o = ctx.createOscillator(); const g = ctx.createGain();
+    o.type='sine'; o.frequency.value = freq || 880; g.gain.value = 0.055;
+    o.connect(g); g.connect(ctx.destination); o.start();
+    setTimeout(()=>{ try{ o.stop(); ctx.close(); }catch(e){} }, 130);
+  }catch(e){}
+}
+
+/* ---------- dark mode ---------- */
+function toggleDarkMode(){
+  document.body.classList.toggle('dark');
+  render();
+}
+
+/* ---------- order cancellation ---------- */
+function cancelOrder(id, from){
+  const o = getOrder(id);
+  if(!o) return;
+  if(!confirm('هل أنت متأكد من إلغاء الطلب #'+id+'؟')) return;
+  o.status = 'cancelled';
+  o.history.push({label:'تم إلغاء الطلب', time:nowTime()});
+  if(state.courier.assignedOrderId === id) state.courier.assignedOrderId = null;
+  if(state.customer.loggedIn && state.customer.name===o.customerName){
+    state.customer.notifications.unshift({ic:'🚫', text:'تم إلغاء طلبك #'+id, time:'الآن'});
+    state.customer.unreadNotifs++;
+  }
+  render();
+  toast('تم إلغاء الطلب #'+id, '🚫');
+}
+
+/* ---------- auto live simulation ---------- */
+let simRunning = false, simInterval = null;
+function toggleSimulation(){
+  simRunning = !simRunning;
+  if(simRunning){
+    simInterval = setInterval(advanceSimulation, 3200);
+    toast('تم تشغيل المحاكاة التلقائية — راقب الطلبات وهي تتحرك بنفسها', '⚡');
+  } else {
+    clearInterval(simInterval);
+    toast('تم إيقاف المحاكاة التلقائية');
+  }
+  render();
+}
+function advanceSimulation(){
+  if(state.courier.online){
+    const pending = state.orders.find(o=>o.status==='pending');
+    if(pending){
+      pending.status='accepted'; pending.courierId=1;
+      pending.history.push({label:'تم قبول الطلب من المندوب', time:nowTime()});
+      playPing(740); render(); return;
+    }
+  }
+  const accepted = state.orders.find(o=>o.status==='accepted');
+  if(accepted){
+    accepted.status='in_transit';
+    accepted.history.push({label:'المندوب في الطريق للعميل', time:nowTime()});
+    playPing(660); render(); return;
+  }
+  const transit = state.orders.find(o=>o.status==='in_transit');
+  if(transit){
+    transit.status='delivered';
+    transit.history.push({label:'تم تسليم الشحنة بنجاح', time:nowTime()});
+    if(transit.codAmount>0 && state.customer.loggedIn && state.customer.name===transit.customerName){
+      state.customer.wallet += transit.codAmount;
+      state.customer.walletTx.unshift({label:'تحصيل شحنة #'+transit.id, amount:transit.codAmount, time:nowTime(), type:'credit'});
+    }
+    if(state.customer.loggedIn && state.customer.name===transit.customerName){
+      state.customer.notifications.unshift({ic:'✅', text:'تم تسليم شحنتك #'+transit.id+' بنجاح', time:'الآن'});
+      state.customer.unreadNotifs++;
+    }
+    playPing(920); render(); return;
+  }
+  clearInterval(simInterval); simRunning=false; render();
+}
+
+/* ---------- admin live search (no full re-render, preserves focus) ---------- */
+function filterAdminOrders(q){
+  q = q.trim().toLowerCase();
+  document.querySelectorAll('#ordersTableBody tr').forEach(tr=>{
+    const s = tr.getAttribute('data-search') || '';
+    tr.style.display = s.indexOf(q) !== -1 ? '' : 'none';
+  });
+}
+
+/* ---------- haptics ---------- */
+function vibrate(ms){ try{ if(navigator.vibrate) navigator.vibrate(ms); }catch(e){} }
+
+/* ---------- courier online status ---------- */
+function toggleCourierOnline(){
+  state.courier.online = !state.courier.online;
+  render();
+  toast(state.courier.online ? 'أنت متصل الآن وجاهز لاستقبال الطلبات ✅' : 'أنت غير متصل حالياً ⛔');
+}
+
+/* ---------- order chat ---------- */
+function sendChatMessage(orderId, sender){
+  const input = $('chatInput');
+  const text = input ? input.value.trim() : '';
+  if(!text) return;
+  const o = getOrder(orderId);
+  if(!o) return;
+  o.messages.push({sender, text, time:nowTime()});
+  render();
+}
+function quickChat(orderId, sender, text){
+  const o = getOrder(orderId);
+  if(!o) return;
+  o.messages.push({sender, text, time:nowTime()});
+  render();
+}
+function chatScreenHTML(order, myRole, backAction){
+  const customerChips = ['شكراً 🙏','تمام، في انتظارك','ممكن تتصل بيا؟'];
+  const courierChips = ['أنا في الطريق 🏍️','هوصل خلال 5 دقايق','تم الاستلام ✅'];
+  const chips = myRole==='customer' ? customerChips : courierChips;
+  const msgsHTML = order.messages.length ? order.messages.map(m=>{
+    const mine = m.sender===myRole;
+    return '<div class="chat-row '+(mine?'mine':'theirs')+'"><div class="chat-bubble '+(mine?'mine':'theirs')+'">'+m.text+'</div><div class="chat-time">'+m.time+'</div></div>';
+  }).join('') : '<div class="empty"><span class="ic">💬</span>ابدأ المحادثة الآن</div>';
+  return statusBar() + backRow('المحادثة — طلب #'+order.id, backAction) +
+    '<div class="screen-body" style="padding-top:0;flex:1;display:flex;flex-direction:column">' +
+    '<div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding-bottom:8px">'+msgsHTML+'</div>' +
+    '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">' +
+    chips.map(c=>'<button class="chip-sm" onclick="quickChat('+order.id+',\''+myRole+'\',\''+c+'\')">'+c+'</button>').join('') +
+    '</div>' +
+    '<div style="display:flex;gap:8px"><input id="chatInput" placeholder="اكتب رسالة..." style="flex:1;padding:11px 14px;border-radius:20px;border:1.5px solid var(--gray-line);background:var(--gray-bg)"><button class="topbtn" style="background:var(--black)" onclick="sendChatMessage('+order.id+',\''+myRole+'\')">➤</button></div>' +
+    '</div>';
+}
+
+/* ---------- CSV export ---------- */
+function exportOrdersCSV(){
+  const f = state.admin.ordersFilter;
+  let list = state.orders;
+  if(f==='pending') list = list.filter(o=>o.status==='pending');
+  else if(f==='active') list = list.filter(o=>o.status==='accepted'||o.status==='in_transit');
+  else if(f==='delivered') list = list.filter(o=>o.status==='delivered');
+  else if(f==='cancelled') list = list.filter(o=>o.status==='cancelled');
+  const rows = [['رقم الطلب','العميل','من','إلى','الحالة','النوع','سعر التوصيل','COD','التاريخ']];
+  list.forEach(o=>rows.push([o.id,o.customerName,o.from,o.toName,statusMeta(o.status).label,o.type,o.price,o.codAmount,new Date(o.createdAt).toLocaleDateString('ar-EG')]));
+  const csv = rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'wasal-orders.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast('تم تصدير الطلبات إلى ملف CSV');
+}
+
+/* ---------- zone revenue donut ---------- */
+function zoneRevenueHTML(orders){
+  const colors = ['#FFC629','#E63946','#1FA35C','#2563EB','#8B5CF6','#F59E0B'];
+  const data = state.zones.map(z=>({name:z.name, sum: orders.filter(o=>o.status==='delivered'&&o.toZoneId===z.id).reduce((s,o)=>s+o.price,0)})).filter(d=>d.sum>0);
+  if(!data.length) return '<p class="muted" style="font-size:12.5px;padding:10px 0">لا توجد بيانات كافية بعد</p>';
+  const total = data.reduce((s,d)=>s+d.sum,0);
+  let cum = 0;
+  const stops = data.map((d,i)=>{
+    const pct = d.sum/total*100;
+    const s = colors[i%colors.length]+' '+cum.toFixed(1)+'% '+(cum+pct).toFixed(1)+'%';
+    cum += pct;
+    return s;
+  });
+  const gradient = 'conic-gradient(' + stops.join(',') + ')';
+  return '<div style="display:flex;gap:22px;align-items:center;flex-wrap:wrap">' +
+    '<div style="width:140px;height:140px;border-radius:50%;background:'+gradient+';position:relative;flex-shrink:0">' +
+    '<div class="donut-hole"><b style="font-size:14px">'+money(total)+'</b><span class="muted" style="font-size:9.5px">إجمالي</span></div></div>' +
+    '<div style="flex:1;min-width:160px">' +
+    data.map((d,i)=>'<div class="row" style="padding:5px 0"><span style="display:flex;align-items:center;gap:8px;font-size:12.5px"><span style="width:10px;height:10px;border-radius:3px;background:'+colors[i%colors.length]+';display:inline-block"></span>'+d.name+'</span><b style="font-size:12.5px">'+money(d.sum)+'</b></div>').join('') +
+    '</div></div>';
+}
+
+/* ---------- live map / tracking ---------- */
+function coordFor(zoneId){
+  const z = state.zones.find(zz=>zz.id===zoneId);
+  return z ? {lat:z.lat, lng:z.lng} : HUB;
+}
+function lerp(a,b,t){ return a + (b-a)*t; }
+
+/* ---------- real road routing (OSRM), cached per destination zone ---------- */
+let routeCache = {};
+function haversine(a,b){
+  const R=6371, dLat=(b[0]-a[0])*Math.PI/180, dLng=(b[1]-a[1])*Math.PI/180;
+  const la1=a[0]*Math.PI/180, la2=b[0]*Math.PI/180;
+  const h = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(la1)*Math.cos(la2)*Math.sin(dLng/2)*Math.sin(dLng/2);
+  return 2*R*Math.asin(Math.sqrt(h));
+}
+function pointAlongPath(coords, pct){
+  if(!coords || coords.length<2) return coords ? coords[0] : null;
+  let total=0; const segLens=[];
+  for(let i=1;i<coords.length;i++){ const d=haversine(coords[i-1],coords[i]); segLens.push(d); total+=d; }
+  let target = total*pct, acc=0;
+  for(let i=0;i<segLens.length;i++){
+    if(acc+segLens[i] >= target){
+      const segPct = segLens[i] ? (target-acc)/segLens[i] : 0;
+      const a=coords[i], b=coords[i+1];
+      return [lerp(a[0],b[0],segPct), lerp(a[1],b[1],segPct)];
+    }
+    acc += segLens[i];
+  }
+  return coords[coords.length-1];
+}
+function getRoadRoute(zoneId, cb){
+  if(routeCache[zoneId] !== undefined){ cb(routeCache[zoneId]); return; }
+  if(!navigator.onLine){ cb(null); return; }
+  const to = coordFor(zoneId);
+  const url = 'https://router.project-osrm.org/route/v1/driving/'+HUB.lng+','+HUB.lat+';'+to.lng+','+to.lat+'?overview=full&geometries=geojson';
+  fetch(url).then(function(r){ return r.json(); }).then(function(data){
+    if(data && data.code==='Ok' && data.routes && data.routes[0]){
+      const coords = data.routes[0].geometry.coordinates.map(function(c){ return [c[1],c[0]]; });
+      routeCache[zoneId] = {coords:coords, distanceKm:Math.round(data.routes[0].distance/1000)};
+    } else { routeCache[zoneId] = null; }
+    cb(routeCache[zoneId]);
+  }).catch(function(){ routeCache[zoneId] = null; cb(null); });
+}
+function mapCardHTML(order, heightPx, showFullBtn, fullScreenAction){
+  return '<div class="map-wrap map-card" style="height:'+heightPx+'px">' +
+    '<div id="liveMapContainer" class="live-map-el" data-order="'+order.id+'" style="height:100%"></div>' +
+    (showFullBtn ? '<button class="map-fab" onclick="'+fullScreenAction+'">⛶ ملء الشاشة</button>' : '') +
+    '</div>';
+}
+let currentMap = null;
+function initMaps(){
+  const single = document.getElementById('liveMapContainer');
+  const fleet = document.getElementById('fleetMapContainer');
+  if(!single && !fleet){
+    if(currentMap){ try{ currentMap.remove(); }catch(e){} currentMap = null; }
+    return;
+  }
+  if(single) refreshLiveMaps(single);
+  else if(fleet) refreshFleetMap(fleet);
+}
+function refreshLiveMaps(el){
+  if(!el || typeof L === 'undefined'){
+    if(currentMap){ try{ currentMap.remove(); }catch(e){} currentMap = null; }
+    return;
+  }
+  const orderId = parseInt(el.getAttribute('data-order'), 10);
+  const order = getOrder(orderId);
+  if(!order) return;
+
+  if(currentMap){ try{ currentMap.remove(); }catch(e){} currentMap = null; }
+  try{
+    const from = HUB;
+    const to = coordFor(order.toZoneId);
+    const cached = routeCache[order.toZoneId];
+    const pathCoords = cached ? cached.coords : null;
+    const pct = order.status==='in_transit' ? liveProgressPct(order)/100 : (order.status==='delivered' ? 1 : 0.04);
+    const curPoint = pathCoords ? pointAlongPath(pathCoords, pct) : [lerp(from.lat,to.lat,pct), lerp(from.lng,to.lng,pct)];
+
+    const map = L.map(el, {zoomControl:false, attributionControl:true, scrollWheelZoom:false, dragging:true, tap:true});
+    L.control.zoom({position:'bottomright'}).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom:18, attribution:'© OpenStreetMap'
+    }).addTo(map);
+
+    const bounds = L.latLngBounds([[from.lat,from.lng],[to.lat,to.lng]]);
+    map.fitBounds(bounds, {padding:[34,34]});
+
+    const hubIcon = L.divIcon({html:'<div style="background:#17171A;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,.4)">🏬</div>', className:'', iconSize:[26,26], iconAnchor:[13,13]});
+    const destIcon = L.divIcon({html:'<div style="background:#E63946;width:24px;height:24px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 6px rgba(0,0,0,.4)"></div>', className:'', iconSize:[24,24], iconAnchor:[12,24]});
+    const bikeIcon = L.divIcon({html:'<div style="font-size:22px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.45))">🏍️</div>', className:'', iconSize:[26,26], iconAnchor:[13,13]});
+
+    L.marker([from.lat,from.lng], {icon:hubIcon}).addTo(map).bindPopup(HUB.name);
+    L.marker([to.lat,to.lng], {icon:destIcon}).addTo(map).bindPopup(order.toName+' — طلب #'+order.id);
+    let routeLine = L.polyline(pathCoords || [[from.lat,from.lng],[to.lat,to.lng]], {color:'#F0AF00', weight: pathCoords?4:3, dashArray: pathCoords?null:'6,8', opacity:.9}).addTo(map);
+
+    let bikeMarker = null;
+    if(order.status==='accepted' || order.status==='in_transit'){
+      bikeMarker = L.marker(curPoint, {icon:bikeIcon}).addTo(map).bindPopup('المندوب الآن');
+    }
+    currentMap = map;
+    setTimeout(function(){ if(currentMap){ try{ currentMap.invalidateSize(); }catch(e){} } }, 320);
+
+    if(!cached){
+      const mapRef = map;
+      getRoadRoute(order.toZoneId, function(route){
+        if(currentMap !== mapRef || !route) return; // map replaced or route unavailable, skip
+        try{
+          routeLine.setLatLngs(route.coords);
+          routeLine.setStyle({dashArray:null, weight:4});
+          if(bikeMarker){
+            const p2 = pointAlongPath(route.coords, pct);
+            bikeMarker.setLatLng(p2);
+          }
+        }catch(e){}
+      });
+    }
+  }catch(e){ /* map init failed silently (e.g. no internet) */ }
+}
+function refreshFleetMap(el){
+  if(!el || typeof L === 'undefined') return;
+  if(currentMap){ try{ currentMap.remove(); }catch(e){} currentMap = null; }
+  try{
+    const map = L.map(el, {zoomControl:true, scrollWheelZoom:true});
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom:18, attribution:'© OpenStreetMap'
+    }).addTo(map);
+
+    const hubIcon = L.divIcon({html:'<div style="background:#17171A;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 2px 6px rgba(0,0,0,.4)">🏬</div>', className:'', iconSize:[28,28], iconAnchor:[14,14]});
+    L.marker([HUB.lat,HUB.lng], {icon:hubIcon}).addTo(map).bindPopup(HUB.name);
+
+    const statusColor = {pending:'#B45309', accepted:'#2563EB', in_transit:'#0369A1'};
+    const active = state.orders.filter(o=>o.status==='pending'||o.status==='accepted'||o.status==='in_transit');
+    const boundsPoints = [[HUB.lat,HUB.lng]];
+
+    active.forEach(function(o){
+      const to = coordFor(o.toZoneId);
+      const meta = statusMeta(o.status);
+      const color = statusColor[o.status] || '#666';
+      const icon = L.divIcon({html:'<div style="background:'+color+';color:#fff;min-width:26px;height:22px;padding:0 6px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;box-shadow:0 2px 6px rgba(0,0,0,.35);white-space:nowrap">#'+o.id+'</div>', className:'', iconSize:[30,22], iconAnchor:[15,11]});
+      L.marker([to.lat,to.lng], {icon:icon}).addTo(map).bindPopup('<b>طلب #'+o.id+'</b><br>'+o.customerName+'<br>'+meta.ic+' '+meta.label);
+      boundsPoints.push([to.lat,to.lng]);
+      if(o.status==='accepted' || o.status==='in_transit'){
+        const cached = routeCache[o.toZoneId];
+        const pct = o.status==='in_transit' ? liveProgressPct(o)/100 : 0.04;
+        const curPoint = cached ? pointAlongPath(cached.coords, pct) : [lerp(HUB.lat,to.lat,pct), lerp(HUB.lng,to.lng,pct)];
+        const bikeIcon = L.divIcon({html:'<div style="font-size:19px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.4))">🏍️</div>', className:'', iconSize:[22,22], iconAnchor:[11,11]});
+        L.marker(curPoint, {icon:bikeIcon}).addTo(map).bindPopup('مندوب — طلب #'+o.id);
+        L.polyline(cached ? cached.coords : [[HUB.lat,HUB.lng],[to.lat,to.lng]], {color:'#F0AF00', weight: cached?3:2, dashArray: cached?null:'5,7', opacity:.6}).addTo(map);
+        if(!cached) getRoadRoute(o.toZoneId, function(){}); // warm cache for next render
+      }
+    });
+
+    if(boundsPoints.length>1){ map.fitBounds(L.latLngBounds(boundsPoints), {padding:[36,36]}); }
+    else{ map.setView([HUB.lat,HUB.lng], 9); }
+
+    currentMap = map;
+    setTimeout(function(){ if(currentMap){ try{ currentMap.invalidateSize(); }catch(e){} } }, 320);
+  }catch(e){ /* map init failed silently (e.g. no internet) */ }
+}
+
+/* ---------- geolocation ---------- */
+function useMyLocation(){
+  if(!navigator.geolocation){ toast('المتصفح لا يدعم تحديد الموقع','⚠️'); return; }
+  toast('جاري تحديد موقعك...', '📍');
+  navigator.geolocation.getCurrentPosition(function(pos){
+    const lat = pos.coords.latitude.toFixed(4), lng = pos.coords.longitude.toFixed(4);
+    const el = $('newOrderFrom');
+    if(el) el.value = 'موقعي الحالي ('+lat+', '+lng+')';
+    toast('تم تحديد موقعك بنجاح ✅');
+  }, function(){
+    toast('تعذر تحديد الموقع، تأكد من إذن الوصول للموقع','⚠️');
+  }, {timeout:8000});
+}
+function liveProgressPct(o){ return Math.min(92, 28 + (o.id % 55)); }
+function liveEtaMinutes(o){ return Math.max(3, Math.round(o.distance/2.2)); }
+function liveRouteHTML(o){
+  const pct = liveProgressPct(o);
+  const eta = liveEtaMinutes(o);
+  return '<div class="route-box live">' +
+    '<div class="row"><b style="font-size:13px">'+o.from+'</b><span class="live-pill"><span class="pulse-dot"></span> مباشر</span></div>' +
+    '<div class="muted" style="font-size:11.5px;margin-top:2px">الوجهة: '+o.toName+'</div>' +
+    '<div class="live-track"><div class="live-progress" style="width:'+pct+'%"></div><div class="live-bike" style="left:'+pct+'%">🏍️</div></div>' +
+    '<div class="live-eta"><span class="muted" style="font-size:11.5px">⏱️ الوصول خلال ~'+eta+' دقيقة</span><span class="muted" style="font-size:11.5px">'+o.distance+' كم</span></div>' +
+    '</div>';
+}
+
+/* ---------- confetti ---------- */
+function confettiHTML(){
+  const colors=['#FFC629','#E63946','#1FA35C','#2563EB','#ffffff'];
+  let pieces='';
+  for(let i=0;i<20;i++){
+    const left=(Math.random()*100).toFixed(1);
+    const delay=(Math.random()*0.45).toFixed(2);
+    const color=colors[i%colors.length];
+    const rot=Math.floor(Math.random()*360);
+    pieces += '<span class="confetti-piece" style="left:'+left+'%;background:'+color+';animation-delay:'+delay+'s;transform:rotate('+rot+'deg)"></span>';
+  }
+  return '<div class="confetti-wrap">'+pieces+'</div>';
+}
+
+/* ---------- signature pad ---------- */
+let sigDrawing=false, sigCtx=null;
+function sigPos(e,canvas){
+  const rect=canvas.getBoundingClientRect();
+  const cx = e.touches ? e.touches[0].clientX : e.clientX;
+  const cy = e.touches ? e.touches[0].clientY : e.clientY;
+  return {x:cx-rect.left, y:cy-rect.top};
+}
+function sigStart(e){
+  const canvas=$('sigCanvas'); if(!canvas) return;
+  sigCtx = canvas.getContext('2d');
+  sigCtx.strokeStyle='#17171A'; sigCtx.lineWidth=2.5; sigCtx.lineCap='round'; sigCtx.lineJoin='round';
+  sigDrawing=true;
+  const p=sigPos(e,canvas);
+  sigCtx.beginPath(); sigCtx.moveTo(p.x,p.y);
+  e.preventDefault();
+}
+function sigMove(e){
+  if(!sigDrawing) return;
+  const canvas=$('sigCanvas'); if(!canvas) return;
+  const p=sigPos(e,canvas);
+  sigCtx.lineTo(p.x,p.y); sigCtx.stroke();
+  e.preventDefault();
+}
+function sigEnd(){ sigDrawing=false; }
+function clearSig(){
+  const canvas=$('sigCanvas'); if(!canvas) return;
+  canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+}
+function saveSignatureAndFinish(orderId){
+  const canvas=$('sigCanvas');
+  const o=getOrder(orderId);
+  if(canvas && o){
+    try{ o.signatureData = canvas.toDataURL(); }catch(e){}
+  }
+  toast('تم حفظ توقيع الاستلام');
+  finishDeliveryFlow();
+}
+
+/* ---------- admin sparkline ---------- */
+function sparklineSVG(orders){
+  const data = [10,16,12,19,14,22, Math.max(6, orders.length)];
+  const w=520, h=90, pad=6;
+  const max = Math.max(...data);
+  const step = (w-pad*2)/(data.length-1);
+  const pts = data.map((v,i)=>{
+    const x = pad + i*step;
+    const y = h - pad - (v/max)*(h-pad*2);
+    return x+','+y;
+  });
+  const line = pts.join(' ');
+  const area = 'M'+pts[0]+' L'+pts.join(' L')+' L'+(w-pad)+','+(h-pad)+' L'+pad+','+(h-pad)+' Z';
+  const dots = data.map((v,i)=>{
+    const x = pad + i*step;
+    const y = h - pad - (v/max)*(h-pad*2);
+    return '<circle cx="'+x+'" cy="'+y+'" r="3.5" fill="#F0AF00"/>';
+  }).join('');
+  return '<div class="sparkline-wrap"><svg viewBox="0 0 '+w+' '+h+'" width="100%" height="90" preserveAspectRatio="none">' +
+    '<defs><linearGradient id="sgrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFC629" stop-opacity="0.35"/><stop offset="100%" stop-color="#FFC629" stop-opacity="0"/></linearGradient></defs>' +
+    '<path d="'+area+'" fill="url(#sgrad)"/>' +
+    '<polyline points="'+line+'" fill="none" stroke="#F0AF00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>' +
+    dots + '</svg></div>';
+}
+
+/* ============================= ROLE SWITCH ============================= */
+function switchRole(r){ state.role = r; render(); }
+function setAppMode(m){ state.appMode = m; render(); }
+function appModeSwitcher(){
+  return '<div class="mode-switch">' +
+    '<button class="mode-seg '+(state.appMode==='customer'?'active':'')+'" onclick="setAppMode(\'customer\')">🧑‍💼 وضع العميل</button>' +
+    '<button class="mode-seg '+(state.appMode==='courier'?'active':'')+'" onclick="setAppMode(\'courier\')">🏍️ وضع المندوب</button>' +
+    '</div>';
+}
+
+/* ============================= CUSTOMER ACTIONS ============================= */
+function goC(screen){ state.customer.screen = screen; render(); }
+
+function customerLogin(){
+  const phone = $('cLoginPhone').value.trim();
+  const pass = $('cLoginPass').value.trim();
+  if(!phone || !pass){ toast('من فضلك أدخل رقم الهاتف وكلمة المرور','⚠️'); return; }
+  state.customer.loggedIn = true;
+  state.customer.name = 'سيف';
+  state.customer.phone = phone;
+  goC('home');
+  toast('مرحباً بك في وصال دليفري');
+}
+function customerSignup(){
+  const name = $('cSignupName').value.trim();
+  const phone = $('cSignupPhone').value.trim();
+  const pass = $('cSignupPass').value.trim();
+  if(!name || !phone || !pass){ toast('من فضلك أكمل بيانات الحساب','⚠️'); return; }
+  if(!state.customers.find(c=>c.phone===phone)) state.customers.push({name, phone});
+  state.customer.loggedIn = true;
+  state.customer.name = name;
+  state.customer.phone = phone;
+  goC('home');
+  toast('تم إنشاء الحساب بنجاح');
+}
+function customerLogout(){
+  state.customer = { loggedIn:false, name:'', phone:'', screen:'splash', draft:{}, viewOrderId:null, presetType:null,
+    wallet:250, unreadNotifs:0, walletTx:[], notifications:[], savedAddresses:[], reorderPrefill:null, onboardStep:0,
+    guestTrackResult:undefined, guestTrackId:'' };
+  render();
+}
+function quickOrder(type){
+  state.customer.presetType = type;
+  state.customer.draft = {};
+  state.customer.reorderPrefill = null;
+  goC('new_order');
+}
+function fillSavedAddress(idx){
+  const a = state.customer.savedAddresses[idx];
+  const el = $('newOrderFrom');
+  if(el && a) el.value = a.address;
+}
+function saveCurrentAddress(){
+  const el = $('newOrderFrom');
+  const val = el ? el.value.trim() : '';
+  if(!val){ toast('اكتب العنوان أولاً','⚠️'); return; }
+  const label = prompt('اسم العنوان (مثال: المنزل، الشغل)');
+  if(!label) return;
+  state.customer.savedAddresses.push({label, address:val});
+  toast('تم حفظ العنوان بنجاح');
+  render();
+}
+function reorderOrder(id, ev){
+  if(ev) ev.stopPropagation();
+  const o = getOrder(id);
+  if(!o) return;
+  state.customer.reorderPrefill = {from:o.from, toZoneId:o.toZoneId, type:o.type, purpose:o.purpose, codAmount:o.codAmount};
+  state.customer.presetType = null;
+  goC('new_order');
+  toast('تم تجهيز نفس بيانات الطلب #'+id);
+}
+function applyPromo(){
+  const input = $('promoInput');
+  const code = input ? input.value.trim().toUpperCase() : '';
+  const promos = { 'WASAL10':{type:'percent', value:10}, 'FIRST20':{type:'flat', value:20} };
+  const d = state.customer.draft;
+  const p = promos[code];
+  if(!p){ toast('كود الخصم غير صحيح','⚠️'); return; }
+  let discount = p.type==='percent' ? Math.round(d.price*p.value/100) : p.value;
+  discount = Math.min(discount, Math.max(0, d.price-5));
+  d.discount = discount; d.promoCode = code;
+  render();
+  toast('تم تطبيق كود الخصم بنجاح 🎉');
+}
+function goToPriceDetails(){
+  const from = $('newOrderFrom').value.trim();
+  const toZoneId = $('newOrderTo').value;
+  const type = $('newOrderType').value;
+  const purpose = $('newOrderPurpose').value;
+  const codAmount = parseInt($('newOrderCod').value, 10) || 0;
+  if(!from){ toast('أدخل عنوان الاستلام','⚠️'); return; }
+  const z = state.zones.find(zz=>zz.id===toZoneId);
+  state.customer.draft = { from, toZoneId, toName:z.name, type, purpose, codAmount, price:z.price, distance:z.distance, discount:0, promoCode:null };
+  state.customer.reorderPrefill = null;
+  goC('price_details');
+}
+function confirmOrder(){
+  const d = state.customer.draft;
+  const id = orderIdCounter++;
+  const finalPrice = Math.max(0, d.price - (d.discount||0));
+  const order = {
+    id, status:'pending', customerName:state.customer.name,
+    from:d.from, toZoneId:d.toZoneId, toName:d.toName, price:finalPrice, distance:d.distance, type:d.type,
+    purpose:d.purpose||'توصيل عادي', codAmount:d.codAmount||0, rating:null, messages:[],
+    courierId:null, createdAt:new Date(),
+    history:[{label:'تم إنشاء الطلب وبانتظار مندوب', time:nowTime()}]
+  };
+  state.orders.unshift(order);
+  state.customer.viewOrderId = id;
+  state.customer.presetType = null;
+  state.customer.notifications.unshift({ic:'🧾', text:'تم إنشاء شحنتك #'+id+' وجاري البحث عن مندوب', time:'الآن'});
+  state.customer.unreadNotifs++;
+  state.customer.screen = 'searching';
+  render();
+  playPing(760);
+  vibrate(30);
+  setTimeout(function(){
+    if(state.customer.screen==='searching'){
+      state.customer.screen = 'order_detail';
+      render();
+      toast('تم العثور على أقرب مندوب 🏍️');
+    }
+  }, 1700);
+}
+function viewCustomerOrder(id){ state.customer.viewOrderId = id; goC('order_detail'); }
+function openNotifications(){ state.customer.unreadNotifs = 0; goC('notifications'); }
+function rateCourier(orderId, stars){
+  const o = getOrder(orderId);
+  o.rating = stars;
+  render();
+  toast('شكراً لتقييمك للمندوب');
+}
+function trackGuestSearch(){
+  const val = $('guestTrackInput').value.trim().replace('#','');
+  const id = parseInt(val, 10);
+  state.customer.guestTrackId = val;
+  state.customer.guestTrackResult = getOrder(id) || null;
+  render();
+}
+function rechargeWallet(){
+  state.customer.wallet += 100;
+  state.customer.walletTx.unshift({label:'شحن محفظة عبر فوري', amount:100, time:nowTime(), type:'credit'});
+  render();
+  toast('تم شحن المحفظة بمبلغ 100 جنيه');
+}
+function subscribePackage(pkgId){
+  const p = shippingPackages.find(x=>x.id===pkgId);
+  state.customer.wallet += p.bonus;
+  state.customer.walletTx.unshift({label:'تفعيل '+p.name, amount:p.bonus, time:nowTime(), type:'credit'});
+  render();
+  toast('تم الاشتراك في '+p.name+' وإضافة '+p.bonus+' جنيه رصيد شحن');
+}
+
+/* ============================= COURIER ACTIONS ============================= */
+function goK(screen){ state.courier.screen = screen; render(); }
+
+function courierLogin(){
+  const phone = $('kLoginPhone').value.trim();
+  const pass = $('kLoginPass').value.trim();
+  if(!phone || !pass){ toast('من فضلك أدخل رقم الهاتف وكلمة المرور','⚠️'); return; }
+  state.courier.loggedIn = true;
+  state.courier.name = 'أحمد محمد';
+  goK('available');
+  toast('مرحباً بك يا مندوب وصال');
+}
+function courierLogout(){
+  state.courier = { loggedIn:false, name:'', screen:'splash', assignedOrderId:null };
+  render();
+}
+function acceptOrder(id){
+  if(!state.courier.online){ toast('فعّل حالتك كمتصل أولاً','⚠️'); return; }
+  const o = getOrder(id);
+  o.status = 'accepted';
+  o.courierId = 1;
+  o.history.push({label:'تم قبول الطلب من المندوب', time:nowTime()});
+  state.courier.assignedOrderId = id;
+  goK('order_detail');
+  playPing(700);
+  vibrate(30);
+  toast('تم قبول الطلب #'+id);
+}
+function startDelivery(id){
+  const o = getOrder(id);
+  o.status = 'in_transit';
+  o.history.push({label:'المندوب في الطريق للعميل', time:nowTime()});
+  render();
+  toast('بدأت الرحلة إلى العميل','🏍️');
+}
+function markDelivered(id){
+  const o = getOrder(id);
+  o.status = 'delivered';
+  o.history.push({label:'تم تسليم الشحنة بنجاح', time:nowTime()});
+  if(o.codAmount>0 && state.customer.loggedIn && state.customer.name===o.customerName){
+    state.customer.wallet += o.codAmount;
+    state.customer.walletTx.unshift({label:'تحصيل شحنة #'+o.id, amount:o.codAmount, time:nowTime(), type:'credit'});
+  }
+  if(state.customer.loggedIn && state.customer.name===o.customerName){
+    state.customer.notifications.unshift({ic:'✅', text:'تم تسليم شحنتك #'+o.id+' بنجاح'+(o.codAmount>0?' وتم تحصيل '+o.codAmount+' جنيه':''), time:'الآن'});
+    state.customer.unreadNotifs++;
+  }
+  goK('delivery_confirmation');
+  playPing(920);
+  vibrate([30,40,30]);
+  toast('تم تسليم الشحنة بنجاح');
+}
+function finishDeliveryFlow(){
+  state.courier.assignedOrderId = null;
+  goK('available');
+}
+function viewCourierOrder(id){ state.courier.assignedOrderId = id; goK('order_detail'); }
+
+/* ============================= ADMIN ACTIONS ============================= */
+function adminLogin(){
+  const u = $('aUser').value.trim();
+  const p = $('aPass').value.trim();
+  if(!u || !p){ toast('من فضلك أدخل اسم المستخدم وكلمة المرور','⚠️'); return; }
+  state.admin.loggedIn = true;
+  state.admin.screen = 'dashboard';
+  render();
+  toast('تم تسجيل الدخول للوحة التحكم');
+}
+function adminLogout(){ state.admin = { loggedIn:false, screen:'dashboard', ordersFilter:'all' }; render(); }
+function goA(screen){ state.admin.screen = screen; render(); }
+function setOrdersFilter(f){ state.admin.ordersFilter = f; render(); }
+function savePricing(){
+  state.zones.forEach(z=>{
+    const val = parseInt($('price_'+z.id).value, 10);
+    if(!isNaN(val) && val >= 0) z.price = val;
+  });
+  render();
+  toast('تم تحديث أسعار المناطق بنجاح');
+}
+
+/* ============================= RENDER: SHARED WIDGETS ============================= */
+function statusBar(){
+  return '<div class="statusbar"><span>'+nowTime()+'</span><span>🔋 📶 5G</span></div>';
+}
+function appHead(){
+  return '<div class="app-head"><div class="word">🦅 <span>وصال</span> دليفري</div><div style="font-size:11px;opacity:.7">Wasal Delivery</div></div>';
+}
+function backRow(title, onBack){
+  return '<div class="back-row"><button class="back-btn" onclick="'+onBack+'">›</button><div class="screen-title">'+title+'</div></div>';
+}
+
+function timelineHTML(order){
+  const steps = order.history;
+  return '<div class="timeline">' + steps.map((s,i)=>{
+    const isLast = i === steps.length-1;
+    const cls = isLast ? (order.status==='delivered' ? 'done' : 'current') : 'done';
+    const dotChar = cls==='done' ? '✓' : '•';
+    return '<div class="tl-item '+cls+'"><div class="tl-dot" style="font-size:10px;color:'+(cls==='done'?'#fff':'#B45309')+'">'+dotChar+'</div>' +
+      '<div class="tl-label">'+s.label+'</div><div class="tl-time">'+s.time+'</div></div>';
+  }).join('') + '</div>';
+}
+
+function ratingWidget(o){
+  if(o.rating){
+    return '<div class="card" style="margin-top:10px"><div class="row"><span class="muted" style="font-size:13px">تقييمك للمندوب</span><span style="font-size:16px">' +
+      '★'.repeat(o.rating) + '<span style="color:var(--gray-line)">' + '★'.repeat(5-o.rating) + '</span></span></div></div>';
+  }
+  let stars = '';
+  for(let i=1;i<=5;i++){
+    stars += '<span style="font-size:26px;cursor:pointer" onclick="rateCourier('+o.id+','+i+')">☆</span>';
+  }
+  return '<div class="card" style="margin-top:10px;text-align:center"><p style="font-size:12.5px;font-weight:700">قيّم تجربة التوصيل</p><div style="margin-top:6px">'+stars+'</div></div>';
+}
+function orderCardCustomer(o){
+  return '<div class="card" style="cursor:pointer" onclick="viewCustomerOrder('+o.id+')">' +
+    '<div class="row"><b>طلب #'+o.id+'</b>'+badge(o.status)+'</div>' +
+    '<div class="muted" style="font-size:12.5px;margin-top:6px">📍 '+o.from+' ← '+o.toName+'</div>' +
+    '<div class="row" style="margin-top:10px"><span class="muted" style="font-size:12px">'+o.type+' · '+o.distance+' كم</span>' +
+    '<b style="color:var(--black)">'+money(o.price)+'</b></div></div>';
+}
+
+/* ============================= RENDER: CUSTOMER APP ============================= */
+function renderCustomerScreen(){
+  const c = state.customer;
+
+  if(c.screen==='track_guest'){
+    const r = c.guestTrackResult;
+    return statusBar() + backRow('تتبع شحنة', c.loggedIn ? "goC('home')" : "goC('splash')") +
+      '<div class="screen-body" style="padding-top:0">' +
+      '<p class="muted" style="font-size:12.5px;margin-bottom:10px">اكتب رقم الشحنة لمتابعتها فوراً — بدون تسجيل دخول وبدون مكالمات</p>' +
+      '<div style="display:flex;gap:8px"><input id="guestTrackInput" placeholder="مثال: 1257" style="flex:1;padding:12px 14px;border-radius:12px;border:1.5px solid var(--gray-line);background:var(--gray-bg)" value="'+(c.guestTrackId||'')+'"><button class="btn btn-dark" style="width:auto;padding:12px 18px" onclick="trackGuestSearch()">🔍</button></div>' +
+      (r===null ? '<div class="empty" style="margin-top:20px"><span class="ic">❌</span>لم يتم العثور على شحنة بهذا الرقم</div>' : '') +
+      (r ? '<div class="card" style="margin-top:16px"><div class="row"><b>شحنة #'+r.id+'</b>'+badge(r.status)+'</div>' +
+        '<div class="muted" style="font-size:12.5px;margin-top:6px">📍 '+r.from+' ← '+r.toName+'</div></div>' +
+        ((r.status==='accepted'||r.status==='in_transit') ? mapCardHTML(r, 170, false, '') : '') +
+        '<div class="card" style="margin-top:10px">'+timelineHTML(r)+'</div>' : '') +
+      '</div>';
+  }
+
+  if(c.screen==='live_map_full'){
+    const o = getOrder(c.viewOrderId);
+    if(!o) return statusBar()+'<div class="empty"><span class="ic">🗺️</span>لا يوجد طلب محدد</div>';
+    return statusBar() + backRow('تتبع الشحنة على الخريطة','goC(\'order_detail\')') +
+      '<div class="screen-body" style="padding-top:0">' +
+      mapCardHTML(o, 300, false, '') +
+      '<div class="card" style="margin-top:10px"><div class="row"><span class="muted" style="font-size:12.5px">🏬 '+HUB.name+'</span><span class="muted" style="font-size:12.5px">📍 '+o.toName+'</span></div>' +
+      '<div class="row" style="margin-top:8px"><span class="muted" style="font-size:11.5px">⏱️ الوصول خلال ~'+liveEtaMinutes(o)+' دقيقة</span><span class="muted" style="font-size:11.5px">'+o.distance+' كم</span></div></div>' +
+      '</div>';
+  }
+
+  if(c.screen==='chat'){
+    const o = getOrder(c.viewOrderId);
+    if(!o) return statusBar()+'<div class="empty"><span class="ic">💬</span>لا توجد محادثة</div>';
+    return chatScreenHTML(o, 'customer', "goC('order_detail')");
+  }
+
+  if(!c.loggedIn){
+    if(c.screen==='signup'){
+      return statusBar() + '<div class="screen-body">' +
+        '<div style="padding-top:10px"></div>' +
+        '<h2 style="font-size:19px">إنشاء حساب جديد</h2>' +
+        '<p class="muted" style="font-size:13px;margin-top:4px">سجّل بياناتك أو أنشئ حساب جديد</p>' +
+        '<div style="margin-top:20px">' +
+        '<div class="field"><label>الاسم بالكامل</label><input id="cSignupName" placeholder="اكتب اسمك"></div>' +
+        '<div class="field"><label>رقم الهاتف</label><input id="cSignupPhone" placeholder="01xxxxxxxxx"></div>' +
+        '<div class="field"><label>كلمة المرور</label><input id="cSignupPass" type="password" placeholder="••••••••"></div>' +
+        '<button class="btn btn-primary" onclick="customerSignup()">إنشاء الحساب</button>' +
+        '<div class="center muted" style="margin-top:14px;font-size:12.5px">لديك حساب بالفعل؟ <a href="javascript:void(0)" style="color:var(--black);font-weight:800" onclick="goC(\'login\')">تسجيل الدخول</a></div>' +
+        '</div></div>';
+    }
+    if(c.screen==='login'){
+      return statusBar() + '<div class="screen-body">' +
+        '<div style="padding-top:10px"></div>' +
+        '<h2 style="font-size:19px">مرحباً بك في وصال دليفري</h2>' +
+        '<p class="muted" style="font-size:13px;margin-top:4px">سجل دخولك أو أنشئ حساب جديد</p>' +
+        '<div style="margin-top:20px">' +
+        '<div class="field"><label>رقم الهاتف</label><input id="cLoginPhone" placeholder="01xxxxxxxxx"></div>' +
+        '<div class="field"><label>كلمة المرور</label><input id="cLoginPass" type="password" placeholder="••••••••"></div>' +
+        '<button class="btn btn-primary" onclick="customerLogin()">تسجيل الدخول</button>' +
+        '<div class="center muted" style="margin-top:14px;font-size:12.5px">ليس لديك حساب؟ <a href="javascript:void(0)" style="color:var(--black);font-weight:800" onclick="goC(\'signup\')">إنشاء حساب جديد</a></div>' +
+        '</div></div>';
+    }
+    // splash
+    return '<div class="screen-body" style="justify-content:space-between;background:linear-gradient(180deg,#1A1A1E,#000);color:#fff;padding:28px 20px;border-radius:32px">' +
+      '<div class="center" style="margin-top:40px">' +
+      '<div style="font-size:52px">🦅</div>' +
+      '<div style="font-weight:900;font-size:24px;margin-top:10px"><span style="color:var(--yellow)">وصال</span> دليفري</div>' +
+      '<div style="font-size:12px;letter-spacing:2px;color:#9d9da8;margin-top:2px">WASAL DELIVERY</div>' +
+      '<p style="color:#c7c7d0;font-size:13px;margin-top:16px;line-height:1.8">من قلب ديروط<br>محافظات ومراكز مصر<br>احنا اللي بنوصل مش بنسافر</p>' +
+      '</div>' +
+      '<div>' +
+      '<button class="btn btn-primary" onclick="goC(\'login\')">ابدأ الآن</button>' +
+      '<button class="btn btn-ghost" style="margin-top:10px;background:#ffffff14;color:#fff" onclick="goC(\'track_guest\')">🔍 تتبع شحنة بدون تسجيل دخول</button>' +
+      '</div>' +
+      '</div>';
+  }
+
+  // logged-in screens
+  if(c.screen==='new_order'){
+    const pre = c.reorderPrefill;
+    const typeOptions = orderTypes.map(t=>{
+      const sel = pre ? pre.type===t : c.presetType===t;
+      return '<option value="'+t+'" '+(sel?'selected':'')+'>'+t+'</option>';
+    }).join('');
+    const zoneOptions = state.zones.map(z=>'<option value="'+z.id+'" '+(pre&&pre.toZoneId===z.id?'selected':'')+'>'+z.name+' — '+z.price+' جنيه</option>').join('');
+    const purposeOptions = purposeTypes.map(p=>'<option '+(pre&&pre.purpose===p?'selected':'')+'>'+p+'</option>').join('');
+    const addrChips = c.savedAddresses.map((a,i)=>'<div class="chip-sm" style="display:inline-flex" onclick="fillSavedAddress('+i+')">📍 '+a.label+'</div>').join(' ');
+    return statusBar() + backRow('إنشاء طلب جديد','goC(\'home\')') +
+      '<div class="screen-body" style="padding-top:0">' +
+      (c.savedAddresses.length ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">'+addrChips+'</div>' : '') +
+      '<div class="field"><label>عنوان الاستلام (من)</label><input id="newOrderFrom" placeholder="اكتب العنوان بالتفصيل" value="'+(pre?pre.from:'')+'"></div>' +
+      '<div style="display:flex;gap:8px;margin-top:-6px;margin-bottom:12px">' +
+      '<button class="btn btn-ghost btn-sm" style="width:auto" onclick="useMyLocation()">📍 موقعي الحالي</button>' +
+      '<button class="btn btn-ghost btn-sm" style="width:auto" onclick="saveCurrentAddress()">💾 حفظ العنوان</button>' +
+      '</div>' +
+      '<div class="field"><label>منطقة التسليم (إلى)</label><select id="newOrderTo">'+zoneOptions+'</select></div>' +
+      '<div class="field"><label>نوع الشحنة</label><select id="newOrderType">'+typeOptions+'</select></div>' +
+      '<div class="field"><label>الغرض من الشحنة</label><select id="newOrderPurpose">'+purposeOptions+'</select></div>' +
+      '<div class="field"><label>قيمة الدفع عند الاستلام COD (اختياري)</label><input id="newOrderCod" type="number" placeholder="0" value="'+(pre&&pre.codAmount?pre.codAmount:'')+'"></div>' +
+      '<div class="card" style="background:var(--gray-bg);border:none;margin-top:4px"><p class="muted" style="font-size:12px">💡 يتم حساب سعر التوصيل تلقائياً حسب المنطقة، وأي مبلغ COD يُحصّل من المستلم ويُضاف لمحفظتك فور التسليم</p></div>' +
+      '<div style="flex:1"></div>' +
+      '<button class="btn btn-primary" onclick="goToPriceDetails()">متابعة</button>' +
+      '</div>';
+  }
+  if(c.screen==='price_details'){
+    const d = c.draft;
+    const finalPrice = Math.max(0, d.price - (d.discount||0));
+    return statusBar() + backRow('تفاصيل السعر','goC(\'new_order\')') +
+      '<div class="screen-body" style="padding-top:0">' +
+      '<div class="route-box">' +
+      '<div class="row"><b style="font-size:13.5px">'+d.from+'</b><span style="font-size:12px" class="muted">'+d.toName+'</span></div>' +
+      '<div class="route-line">' +
+      '<div class="route-point from"><div class="dot"></div><span style="font-size:12.5px">عنوان الاستلام</span></div>' +
+      '<div class="route-connector"></div>' +
+      '<div class="route-point to"><div class="dot"></div><span style="font-size:12.5px">عنوان التسليم — '+d.toName+'</span></div>' +
+      '</div></div>' +
+      '<div class="card" style="margin-top:14px">' +
+      '<div class="row" style="padding:6px 0"><span class="muted" style="font-size:13px">نوع الشحنة</span><b style="font-size:13px">'+d.type+'</b></div>' +
+      '<div class="row" style="padding:6px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:13px">الغرض</span><b style="font-size:13px">'+d.purpose+'</b></div>' +
+      '<div class="row" style="padding:6px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:13px">المسافة التقريبية</span><b style="font-size:13px">'+d.distance+' كم</b></div>' +
+      '<div class="row" style="padding:6px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:13px">سعر التوصيل</span><b style="font-size:13px">'+money(d.price)+'</b></div>' +
+      (d.codAmount>0 ? '<div class="row" style="padding:6px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:13px">قيمة COD (تُحصّل من المستلم)</span><b style="font-size:13px;color:var(--green)">'+money(d.codAmount)+'</b></div>' : '') +
+      (d.discount>0 ? '<div class="row" style="padding:6px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:13px">خصم كوبون ('+d.promoCode+')</span><b style="font-size:13px;color:var(--red)">-'+money(d.discount)+'</b></div>' : '') +
+      '<div class="row" style="padding:10px 0 0;border-top:1px solid var(--gray-line);margin-top:4px"><span style="font-weight:800">تكلفة الشحن المستحقة عليك</span><b style="font-size:19px;color:var(--black)">'+money(finalPrice)+'</b></div>' +
+      '</div>' +
+      '<div class="card" style="margin-top:10px">' +
+      '<label style="font-size:12.5px;font-weight:700;color:var(--text-mut);display:block;margin-bottom:6px">🎟️ كود خصم</label>' +
+      '<div style="display:flex;gap:8px"><input id="promoInput" placeholder="مثال: WASAL10" style="flex:1;padding:10px 12px;border-radius:10px;border:1.5px solid var(--gray-line);background:var(--gray-bg)"><button class="btn btn-dark btn-sm" style="width:auto;padding:10px 16px" onclick="applyPromo()">تطبيق</button></div>' +
+      '</div>' +
+      '<div style="flex:1"></div>' +
+      '<button class="btn btn-primary" onclick="confirmOrder()">تأكيد الطلب</button>' +
+      '</div>';
+  }
+  if(c.screen==='order_detail'){
+    const o = getOrder(c.viewOrderId);
+    if(!o) return statusBar()+'<div class="empty"><span class="ic">📦</span>لا يوجد طلب محدد</div>';
+    const courier = o.courierId ? state.couriers.find(k=>k.id===o.courierId) : null;
+    return statusBar() + backRow('متابعة الطلب #'+o.id,'goC(\'tracking_list\')') +
+      '<div class="screen-body" style="padding-top:0">' +
+      '<div class="row"><span class="muted" style="font-size:12.5px">'+o.from+' ← '+o.toName+'</span>'+badge(o.status)+'</div>' +
+      (o.status==='in_transit' ? liveRouteHTML(o) : '') +
+      ((o.status==='accepted'||o.status==='in_transit') ? mapCardHTML(o, 170, true, "goC('live_map_full')") : '') +
+      '<div class="card" style="margin-top:12px">'+timelineHTML(o)+'</div>' +
+      (courier ? '<div class="card" style="margin-top:10px"><div class="row"><div style="display:flex;align-items:center;gap:10px"><div class="avatar">'+initials(courier.name)+'</div><div><b style="font-size:13.5px">'+courier.name+'</b><div class="muted" style="font-size:11.5px">مندوب توصيل</div></div></div></div>' +
+        '<div class="btn-row" style="margin-top:12px"><button class="btn btn-green btn-sm" onclick="toast(\'فتح واتساب مع المندوب\',\'💬\')">💬 واتساب</button><button class="btn btn-dark btn-sm" onclick="toast(\'جاري الاتصال بالمندوب\',\'📞\')">📞 اتصال</button></div>' +
+        '<button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="goC(\'chat\')">💬 المحادثة مع المندوب'+(o.messages.length?' ('+o.messages.length+')':'')+'</button></div>' : '') +
+      '<div class="card" style="margin-top:10px">' +
+      '<div class="row" style="padding:4px 0"><span class="muted" style="font-size:13px">الغرض</span><b style="font-size:13px">'+o.purpose+'</b></div>' +
+      (o.codAmount>0 ? '<div class="row" style="padding:4px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:13px">قيمة COD</span><b style="font-size:13px;color:var(--green)">'+money(o.codAmount)+'</b></div>' : '') +
+      '<div class="row" style="padding:4px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:13px">تكلفة الشحن</span><b>'+money(o.price)+'</b></div>' +
+      '</div>' +
+      (o.status==='delivered' && o.signatureData ? '<div class="card" style="margin-top:10px"><p class="muted" style="font-size:12px;margin-bottom:6px">✍️ توقيع الاستلام</p><img class="sig-thumb" src="'+o.signatureData+'"></div>' : '') +
+      (o.status==='delivered' ? ratingWidget(o) : '') +
+      (o.status==='delivered' ? '<button class="btn btn-outline" style="margin-top:10px" onclick="goC(\'invoice\')">🧾 عرض الفاتورة</button>' : '') +
+      (o.status==='pending' ? '<button class="btn btn-outline" style="margin-top:10px;color:var(--red);border-color:#FCA5A5" onclick="cancelOrder('+o.id+')">🚫 إلغاء الطلب</button>' : '') +
+      '</div>';
+  }
+  if(c.screen==='invoice'){
+    const o = getOrder(c.viewOrderId);
+    if(!o) return statusBar()+'<div class="empty"><span class="ic">🧾</span>لا يوجد طلب محدد</div>';
+    return statusBar() + backRow('الفاتورة','goC(\'order_detail\')') +
+      '<div class="screen-body" style="padding-top:0">' +
+      '<div class="card" style="text-align:center;background:var(--black);color:#fff;border:none">' +
+      '<div style="font-size:26px">🦅</div><b style="font-size:15px"><span style="color:var(--yellow)">وصال</span> دليفري</b>' +
+      '<p class="muted" style="font-size:11px;color:#B9B9C2;margin-top:2px">فاتورة شحن إلكترونية</p></div>' +
+      '<div class="card" style="margin-top:10px">' +
+      '<div class="row" style="padding:5px 0"><span class="muted" style="font-size:12.5px">رقم الطلب</span><b style="font-size:12.5px">#'+o.id+'</b></div>' +
+      '<div class="row" style="padding:5px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:12.5px">التاريخ</span><b style="font-size:12.5px">'+new Date(o.createdAt).toLocaleDateString('ar-EG')+'</b></div>' +
+      '<div class="row" style="padding:5px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:12.5px">العميل</span><b style="font-size:12.5px">'+o.customerName+'</b></div>' +
+      '<div class="row" style="padding:5px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:12.5px">من</span><b style="font-size:12.5px">'+o.from+'</b></div>' +
+      '<div class="row" style="padding:5px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:12.5px">إلى</span><b style="font-size:12.5px">'+o.toName+'</b></div>' +
+      '<div class="row" style="padding:5px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:12.5px">نوع الشحنة</span><b style="font-size:12.5px">'+o.type+' — '+o.purpose+'</b></div>' +
+      '</div>' +
+      '<div class="card" style="margin-top:10px">' +
+      '<div class="row" style="padding:5px 0"><span class="muted" style="font-size:12.5px">تكلفة الشحن</span><b style="font-size:12.5px">'+money(o.price)+'</b></div>' +
+      (o.codAmount>0 ? '<div class="row" style="padding:5px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:12.5px">COD محصّل</span><b style="font-size:12.5px;color:var(--green)">'+money(o.codAmount)+'</b></div>' : '') +
+      '<div class="row" style="padding:10px 0 0;border-top:1px solid var(--gray-line);margin-top:6px"><span style="font-weight:800">الإجمالي المستحق</span><b style="font-size:18px">'+money(o.price)+'</b></div>' +
+      '</div>' +
+      '<p class="center muted" style="font-size:11px;margin-top:16px">شكراً لاستخدامك وصال دليفري 🦅</p>' +
+      '<button class="btn btn-dark" style="margin-top:8px" onclick="window.print()">🖨️ طباعة / حفظ PDF</button>' +
+      '</div>';
+  }
+  if(c.screen==='tracking_list'){
+    const mine = state.orders.filter(o=>o.customerName===c.name);
+    return statusBar() + '<div class="screen-body" style="padding-top:6px">' +
+      '<h2 style="font-size:17px;margin-bottom:12px">طلباتي</h2>' +
+      (mine.length ? mine.map(orderCardCustomer).join('') : '<div class="empty"><span class="ic">🧾</span>لا توجد طلبات بعد</div>') +
+      '</div>' + bottomNavCustomer('tracking_list');
+  }
+  if(c.screen==='account'){
+    const mine = state.orders.filter(o=>o.customerName===c.name);
+    return statusBar() + '<div class="screen-body" style="padding-top:6px">' +
+      '<div class="center" style="margin:10px 0 18px"><div class="avatar" style="width:60px;height:60px;font-size:22px;margin:0 auto">'+initials(c.name)+'</div>' +
+      '<h2 style="font-size:17px;margin-top:10px">'+c.name+'</h2><p class="muted" style="font-size:12.5px">'+c.phone+'</p></div>' +
+      '<div class="card"><div class="row"><span class="muted" style="font-size:13px">إجمالي الطلبات</span><b>'+mine.length+'</b></div></div>' +
+      '<div class="card"><div class="row"><span class="muted" style="font-size:13px">طلبات تم تسليمها</span><b>'+mine.filter(o=>o.status==='delivered').length+'</b></div></div>' +
+      '<div style="flex:1"></div>' +
+      '<button class="btn btn-outline" onclick="customerLogout()">تسجيل الخروج</button>' +
+      '</div>' + bottomNavCustomer('account');
+  }
+
+  if(c.screen==='notifications'){
+    return statusBar() + backRow('الإشعارات','goC(\'home\')') +
+      '<div class="screen-body" style="padding-top:0">' +
+      (c.notifications.length ? c.notifications.map(n=>'<div class="card" style="display:flex;gap:10px;align-items:flex-start"><span style="font-size:18px">'+n.ic+'</span><div><p style="font-size:13px;font-weight:700">'+n.text+'</p><p class="muted" style="font-size:11px;margin-top:3px">'+n.time+'</p></div></div>').join('')
+        : '<div class="empty"><span class="ic">🔔</span>لا توجد إشعارات</div>') +
+      '</div>';
+  }
+  if(c.screen==='wallet'){
+    return statusBar() + '<div class="screen-body" style="padding-top:6px">' +
+      '<h2 style="font-size:17px;margin-bottom:12px">محفظة وصال</h2>' +
+      '<div class="card" style="background:linear-gradient(135deg,#1A1A1E,#000);color:#fff;border:none">' +
+      '<p class="muted" style="font-size:12px;color:#B9B9C2">الرصيد الحالي</p>' +
+      '<h2 style="font-size:28px;margin-top:4px;color:var(--yellow)">'+money(c.wallet)+'</h2>' +
+      '<button class="btn btn-primary" style="margin-top:14px" onclick="rechargeWallet()">💳 شحن المحفظة (فوري)</button>' +
+      '</div>' +
+      '<div class="card" style="margin-top:12px;cursor:pointer" onclick="goC(\'packages\')"><div class="row"><div><b style="font-size:13.5px">باقات الشحن</b><p class="muted" style="font-size:11.5px;margin-top:3px">اشترك واحصل على رصيد إضافي</p></div><span style="font-size:22px">📦</span></div></div>' +
+      '<b style="font-size:14px;display:block;margin:16px 0 8px">آخر الحركات</b>' +
+      c.walletTx.map(t=>'<div class="card"><div class="row"><span style="font-size:13px">'+t.label+'</span><b style="font-size:13px;color:'+(t.type==='credit'?'var(--green)':'var(--red)')+'">'+(t.type==='credit'?'+':'')+t.amount+' جنيه</b></div><p class="muted" style="font-size:11px;margin-top:3px">'+t.time+'</p></div>').join('') +
+      '</div>' + bottomNavCustomer('wallet');
+  }
+  if(c.screen==='packages'){
+    return statusBar() + backRow('باقات الشحن','goC(\'wallet\')') +
+      '<div class="screen-body" style="padding-top:0">' +
+      shippingPackages.map(p=>'<div class="card '+(p.highlight?'shadow-card':'')+'" style="'+(p.highlight?'border:2px solid var(--yellow-dark)':'')+'">' +
+        '<div class="row"><b style="font-size:15px">'+p.name+'</b>'+(p.highlight?'<span class="badge badge-accepted">الأكثر طلباً</span>':'')+'</div>' +
+        '<p class="muted" style="font-size:12px;margin-top:4px">'+p.note+'</p>' +
+        '<div class="row" style="margin-top:12px"><span style="font-size:13px" class="muted">'+p.count+' شحنة</span><b style="font-size:19px">'+money(p.price)+'</b></div>' +
+        '<div class="row" style="margin-top:4px"><span class="muted" style="font-size:12px">رصيد إضافي هدية</span><b style="font-size:12px;color:var(--green)">+'+p.bonus+' جنيه</b></div>' +
+        '<button class="btn btn-dark btn-sm" style="margin-top:12px" onclick="subscribePackage(\''+p.id+'\')">اشتراك الآن</button>' +
+        '</div>').join('') +
+      '</div>';
+  }
+
+  // home (default)
+  const mine = state.orders.filter(o=>o.customerName===c.name).slice(0,4);
+  return statusBar() + '<div class="screen-body" style="padding-top:2px">' +
+    '<div class="row" style="margin-top:4px"><div><p class="muted" style="font-size:12px">مرحباً بك في</p><h2 style="font-size:19px">وصال دليفري 👋 '+c.name+'</h2></div>' +
+    '<div style="display:flex;align-items:center;gap:10px">' +
+    '<div style="position:relative;cursor:pointer;font-size:20px" onclick="openNotifications()">🔔'+(c.unreadNotifs>0?'<span style="position:absolute;top:-4px;left:-6px;background:var(--red);color:#fff;font-size:9px;font-weight:800;border-radius:8px;padding:1px 5px">'+c.unreadNotifs+'</span>':'')+'</div>' +
+    '<div class="avatar" style="cursor:pointer" onclick="goC(\'account\')">'+initials(c.name)+'</div></div></div>' +
+    '<div class="chips-grid" style="margin-top:16px">' +
+    quickCategories.map(q=>'<div class="chip" onclick="quickOrder(\''+q.type+'\')"><span class="ic">'+q.ic+'</span>'+q.label+'</div>').join('') +
+    '</div>' +
+    '<div class="card" style="margin-top:16px;background:linear-gradient(135deg,var(--yellow),var(--yellow-dark));border:none">' +
+    '<div class="row"><div><b style="font-size:15px">مع وصال ديما سابقين بخطوة</b><p style="font-size:12px;margin-top:4px;opacity:.75">أنشئ طلب توصيل جديد الآن</p></div><span style="font-size:30px">🏍️</span></div>' +
+    '<button class="btn btn-dark" style="margin-top:12px" onclick="goC(\'new_order\')">➕ إنشاء طلب جديد</button></div>' +
+    '<div class="card" style="margin-top:10px;cursor:pointer" onclick="goC(\'track_guest\')"><div class="row"><span style="font-size:13px;font-weight:700">🔍 تتبع أي شحنة برقمها</span><span style="font-size:12px;color:var(--text-mut)">›</span></div></div>' +
+    '<div class="row" style="margin-top:20px;margin-bottom:8px"><b style="font-size:14.5px">آخر الطلبات</b><a href="javascript:void(0)" style="font-size:12px;color:var(--text-mut);font-weight:700" onclick="goC(\'tracking_list\')">عرض الكل</a></div>' +
+    (mine.length ? mine.map(orderCardCustomer).join('') : '<div class="empty"><span class="ic">📦</span>لا توجد طلبات بعد<br>ابدأ أول طلب توصيل الآن</div>') +
+    '</div>' + bottomNavCustomer('home');
+}
+function bottomNavCustomer(active){
+  const items = [
+    {k:'home', ic:'🏠', label:'الرئيسية'},
+    {k:'tracking_list', ic:'🧾', label:'طلباتي'},
+    {k:'wallet', ic:'💳', label:'المحفظة'},
+    {k:'account', ic:'👤', label:'حسابي'},
+  ];
+  return '<div class="bottom-nav">' + items.map(i=>'<button class="'+(active===i.k?'active':'')+'" onclick="goC(\''+i.k+'\')"><span class="ic">'+i.ic+'</span>'+i.label+'</button>').join('') + '</div>';
+}
+
+/* ============================= RENDER: COURIER APP ============================= */
+function renderCourierScreen(){
+  const k = state.courier;
+
+  if(k.screen==='chat'){
+    const o = getOrder(k.assignedOrderId);
+    if(!o) return statusBar()+'<div class="empty"><span class="ic">💬</span>لا توجد محادثة</div>';
+    return chatScreenHTML(o, 'courier', "goK('order_detail')");
+  }
+
+  if(k.screen==='live_map_full'){
+    const o = getOrder(k.assignedOrderId);
+    if(!o) return statusBar()+'<div class="empty"><span class="ic">🗺️</span>لا يوجد طلب محدد</div>';
+    return statusBar() + backRow('الخريطة المباشرة','goK(\'order_detail\')') +
+      '<div class="screen-body" style="padding-top:0">' +
+      mapCardHTML(o, 300, false, '') +
+      '<div class="card" style="margin-top:10px"><div class="row"><span class="muted" style="font-size:12.5px">🏬 '+HUB.name+'</span><span class="muted" style="font-size:12.5px">📍 '+o.toName+'</span></div>' +
+      '<div class="row" style="margin-top:8px"><span class="muted" style="font-size:11.5px">⏱️ الوصول خلال ~'+liveEtaMinutes(o)+' دقيقة</span><span class="muted" style="font-size:11.5px">'+o.distance+' كم</span></div></div>' +
+      '</div>';
+  }
+
+  if(!k.loggedIn){
+    if(k.screen==='login'){
+      return statusBar() + '<div class="screen-body">' +
+        '<div style="padding-top:10px"></div>' +
+        '<h2 style="font-size:19px">مرحباً بك مندوب وصال</h2>' +
+        '<p class="muted" style="font-size:13px;margin-top:4px">سجل دخولك لبدء استقبال الطلبات</p>' +
+        '<div style="margin-top:20px">' +
+        '<div class="field"><label>رقم الهاتف</label><input id="kLoginPhone" placeholder="01xxxxxxxxx"></div>' +
+        '<div class="field"><label>كلمة المرور</label><input id="kLoginPass" type="password" placeholder="••••••••"></div>' +
+        '<button class="btn btn-primary" onclick="courierLogin()">تسجيل الدخول</button>' +
+        '<div class="center muted" style="margin-top:14px;font-size:12px">نسيت كلمة المرور؟</div>' +
+        '</div></div>';
+    }
+    return '<div class="screen-body" style="justify-content:space-between;background:linear-gradient(180deg,#1A1A1E,#000);color:#fff;padding:28px 20px;border-radius:32px">' +
+      '<div class="center" style="margin-top:40px">' +
+      '<div style="font-size:52px">🏍️</div>' +
+      '<div style="font-weight:900;font-size:24px;margin-top:10px"><span style="color:var(--yellow)">وصال</span> دليفري</div>' +
+      '<div style="font-size:12px;letter-spacing:2px;color:#9d9da8;margin-top:2px">تطبيق المندوب</div>' +
+      '<p style="color:#c7c7d0;font-size:13px;margin-top:16px;line-height:1.8">مع وصال ديما سابقين بخطوة<br>انضم لأسطول المناديب الآن</p>' +
+      '</div>' +
+      '<button class="btn btn-primary" onclick="goK(\'login\')">تسجيل الدخول</button>' +
+      '</div>';
+  }
+
+  if(k.screen==='order_detail'){
+    const o = getOrder(k.assignedOrderId);
+    if(!o) return statusBar()+backRow('تفاصيل الطلب','goK(\'available\')')+'<div class="empty"><span class="ic">📦</span>لا يوجد طلب محدد</div>';
+    return statusBar() + backRow('طلب #'+o.id,'goK(\'available\')') +
+      '<div class="screen-body" style="padding-top:0">' +
+      '<div class="row">'+badge(o.status)+'<span class="muted" style="font-size:12px">'+o.type+' · '+o.distance+' كم</span></div>' +
+      (o.status==='in_transit' ? liveRouteHTML(o) : '<div class="route-box" style="margin-top:10px"><div class="route-line">' +
+      '<div class="route-point from"><div class="dot"></div><span style="font-size:12.5px">'+o.from+'</span></div>' +
+      '<div class="route-connector"></div>' +
+      '<div class="route-point to"><div class="dot"></div><span style="font-size:12.5px">'+o.toName+'</span></div>' +
+      '</div></div>') +
+      ((o.status==='accepted'||o.status==='in_transit') ? mapCardHTML(o, 160, true, "goK('live_map_full')") : '') +
+      '<div class="card" style="margin-top:10px">' +
+      '<div class="row" style="padding:5px 0"><span class="muted" style="font-size:13px">العميل</span><b style="font-size:13px">'+o.customerName+'</b></div>' +
+      '<div class="row" style="padding:5px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:13px">الغرض</span><b style="font-size:13px">'+o.purpose+'</b></div>' +
+      '<div class="row" style="padding:5px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:13px">أجرة التوصيل</span><b style="font-size:13px;color:var(--green)">'+money(o.price)+'</b></div>' +
+      (o.codAmount>0 ? '<div class="row" style="padding:5px 0;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:13px">مبلغ COD المطلوب تحصيله</span><b style="font-size:13px;color:var(--red)">'+money(o.codAmount)+'</b></div>' : '') +
+      '</div>' +
+      '<div class="card" style="margin-top:10px">'+timelineHTML(o)+'</div>' +
+      '<button class="btn btn-ghost btn-sm" style="margin-top:2px" onclick="goK(\'chat\')">💬 المحادثة مع العميل'+(o.messages.length?' ('+o.messages.length+')':'')+'</button>' +
+      '<div style="flex:1"></div>' +
+      (o.status==='accepted' ? '<button class="btn btn-green" onclick="startDelivery('+o.id+')">🏍️ بدء التوصيل</button>' : '') +
+      (o.status==='in_transit' ? '<button class="btn btn-dark" onclick="markDelivered('+o.id+')">✅ تم التسليم</button>' : '') +
+      (o.status==='delivered' ? '<button class="btn btn-outline" onclick="finishDeliveryFlow()">إنهاء</button>' : '') +
+      '</div>';
+  }
+  if(k.screen==='delivery_confirmation'){
+    const o = getOrder(k.assignedOrderId);
+    return statusBar() + '<div class="screen-body" style="justify-content:flex-start;align-items:center;text-align:center">' +
+      confettiHTML() +
+      '<div style="width:74px;height:74px;border-radius:50%;background:var(--green-bg);display:flex;align-items:center;justify-content:center;font-size:34px;margin-top:6px">✅</div>' +
+      '<h2 style="margin-top:14px;font-size:17px">تم التسليم بنجاح</h2>' +
+      '<p class="muted" style="font-size:12.5px;margin-top:4px">وقّع العميل لتأكيد استلام الشحنة #'+(o?o.id:'')+'</p>' +
+      '<div class="card" style="width:100%;margin-top:14px"><div class="row"><span class="muted" style="font-size:13px">التحصيل</span><b style="color:var(--green)">'+(o?money(o.price):'')+'</b></div>' +
+      (o && o.codAmount>0 ? '<div class="row" style="margin-top:6px;padding-top:6px;border-top:1px solid var(--gray-line)"><span class="muted" style="font-size:13px">COD من المستلم</span><b style="color:var(--red)">'+money(o.codAmount)+'</b></div>' : '') +
+      '</div>' +
+      '<div style="width:100%;margin-top:14px;text-align:right"><label style="font-size:12.5px;font-weight:700;color:var(--text-mut);display:block;margin-bottom:6px">توقيع الاستلام</label>' +
+      '<canvas id="sigCanvas" width="280" height="120" onmousedown="sigStart(event)" onmousemove="sigMove(event)" onmouseup="sigEnd(event)" onmouseleave="sigEnd(event)" ontouchstart="sigStart(event)" ontouchmove="sigMove(event)" ontouchend="sigEnd(event)"></canvas></div>' +
+      '<div class="btn-row" style="width:100%;margin-top:10px"><button class="btn btn-ghost btn-sm" onclick="clearSig()">🧹 مسح</button></div>' +
+      '<button class="btn btn-primary" style="margin-top:12px" onclick="saveSignatureAndFinish('+(o?o.id:0)+')">💾 حفظ التوقيع وإنهاء</button>' +
+      '</div>';
+  }
+  if(k.screen==='my_orders'){
+    const mine = state.orders.filter(o=>o.courierId===1 && (o.status==='accepted'||o.status==='in_transit'));
+    return statusBar() + '<div class="screen-body" style="padding-top:6px">' +
+      '<h2 style="font-size:17px;margin-bottom:12px">طلباتي الحالية</h2>' +
+      (mine.length ? mine.map(o=>'<div class="card" style="cursor:pointer" onclick="viewCourierOrder('+o.id+')"><div class="row"><b>طلب #'+o.id+'</b>'+badge(o.status)+'</div>' +
+        '<div class="muted" style="font-size:12.5px;margin-top:6px">📍 '+o.from+' ← '+o.toName+'</div>' +
+        '<div class="row" style="margin-top:10px"><span class="muted" style="font-size:12px">'+o.distance+' كم</span><b>'+money(o.price)+'</b></div></div>').join('')
+        : '<div class="empty"><span class="ic">🚚</span>لا توجد طلبات جارية</div>') +
+      '</div>' + bottomNavCourier('my_orders');
+  }
+  if(k.screen==='account'){
+    const delivered = state.orders.filter(o=>o.courierId===1 && o.status==='delivered');
+    const todayDelivered = delivered.filter(o=>isToday(o.createdAt));
+    const earnings = todayDelivered.reduce((s,o)=>s+o.price,0);
+    const distanceSum = todayDelivered.reduce((s,o)=>s+o.distance,0);
+    const net = Math.round(earnings*0.9);
+    const rated = delivered.filter(o=>o.rating);
+    const avgRating = rated.length ? (rated.reduce((s,o)=>s+o.rating,0)/rated.length) : 0;
+    const avgDisplay = rated.length ? avgRating.toFixed(1) : '—';
+    return statusBar() + '<div class="screen-body" style="padding-top:6px">' +
+      '<div class="center" style="margin:10px 0 18px"><div class="avatar" style="width:60px;height:60px;font-size:22px;margin:0 auto">'+initials(k.name)+'</div>' +
+      '<h2 style="font-size:17px;margin-top:10px">'+k.name+'</h2><p class="muted" style="font-size:12.5px">مندوب توصيل</p>' +
+      (rated.length ? '<div style="margin-top:8px;font-size:15px;color:#F0AF00">'+'★'.repeat(Math.round(avgRating))+'<span style="color:var(--gray-line)">'+'★'.repeat(5-Math.round(avgRating))+'</span> <span class="muted" style="font-size:12px">('+avgDisplay+')</span></div>' : '') +
+      (avgRating>=4.5 ? '<div class="badge badge-accepted glow-badge" style="margin-top:8px">🏆 أفضل مندوب هذا الأسبوع</div>' : '') +
+      '</div>' +
+      '<div class="card"><div class="row"><span class="muted" style="font-size:13px">مستحقات اليوم</span><b style="color:var(--green);font-size:16px">'+money(earnings)+'</b></div></div>' +
+      '<div class="card"><div class="row"><span class="muted" style="font-size:13px">عدد الطلبات المسلمة اليوم</span><b>'+todayDelivered.length+'</b></div></div>' +
+      '<div class="card"><div class="row"><span class="muted" style="font-size:13px">المسافة المقطوعة</span><b>'+distanceSum+' كم</b></div></div>' +
+      '<div class="card"><div class="row"><span class="muted" style="font-size:13px">صافي المستحقات</span><b>'+money(net)+'</b></div></div>' +
+      '<div style="flex:1"></div>' +
+      '<button class="btn btn-outline" onclick="courierLogout()">تسجيل الخروج</button>' +
+      '</div>' + bottomNavCourier('account');
+  }
+
+  // available (default)
+  const available = state.orders.filter(o=>o.status==='pending');
+  return statusBar() + '<div class="screen-body" style="padding-top:6px">' +
+    '<div class="row"><h2 style="font-size:17px">الطلبات المتاحة</h2><span class="badge badge-pending">'+available.length+' طلب</span></div>' +
+    '<div class="card" style="margin-top:10px"><div class="row"><div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;font-weight:700">'+(k.online?'🟢 متصل الآن':'⚪ غير متصل')+'</span></div>' +
+    '<button class="switch-pill '+(k.online?'on':'')+'" onclick="toggleCourierOnline()"><span class="knob"></span></button></div></div>' +
+    '<div style="margin-top:14px">' +
+    (!k.online ? '<div class="empty"><span class="ic">⛔</span>أنت غير متصل حالياً<br>فعّل حالتك لاستقبال الطلبات الجديدة</div>' :
+    (available.length ? available.map(o=>
+      '<div class="card">' +
+      '<div class="row"><b>طلب #'+o.id+'</b><b style="color:var(--green)">'+money(o.price)+'</b></div>' +
+      '<div class="muted" style="font-size:12.5px;margin-top:6px">📍 '+o.from+' ← '+o.toName+'</div>' +
+      '<div class="row" style="margin-top:8px"><span class="muted" style="font-size:12px">'+o.type+' · '+o.distance+' كم</span></div>' +
+      '<button class="btn btn-green btn-sm" style="margin-top:10px" onclick="acceptOrder('+o.id+')">قبول الطلب</button>' +
+      '</div>'
+    ).join('') : '<div class="empty"><span class="ic">🔍</span>لا توجد طلبات متاحة حالياً<br>سنعلمك فور وصول طلب جديد</div>')) +
+    '</div></div>' + bottomNavCourier('available');
+}
+function bottomNavCourier(active){
+  const items = [
+    {k:'available', ic:'📋', label:'المتاحة'},
+    {k:'my_orders', ic:'🚚', label:'طلباتي'},
+    {k:'account', ic:'👤', label:'حسابي'},
+  ];
+  return '<div class="bottom-nav">' + items.map(i=>'<button class="'+(active===i.k?'active':'')+'" onclick="goK(\''+i.k+'\')"><span class="ic">'+i.ic+'</span>'+i.label+'</button>').join('') + '</div>';
+}
+
+/* ============================= RENDER: ADMIN DASHBOARD ============================= */
+function render(){
+  const app = $('app');
+  const screenHTML = state.appMode==='courier' ? renderCourierScreen() : renderCustomerScreen();
+  const captionTxt = state.appMode==='courier' ? 'وضع المندوب' : 'وضع العميل';
+  const body = '<div class="phone-wrap"><div class="phone-frame"><div class="phone-notch"></div><div class="phone-screen">' + appModeSwitcher() + '<div class="fade-in">'+screenHTML+'</div></div></div>' +
+    '<div class="caption">تطبيق وصال دليفري — '+captionTxt+'</div></div>';
+
+  app.innerHTML =
+    '<div class="shell">' +
+      (navigator.onLine===false ? '<div class="offline-banner">⚠️ لا يوجد اتصال بالإنترنت — الخريطة والمزامنة الحية معطلة مؤقتاً</div>' : '') +
+      '<div class="brandbar">' +
+        '<div class="logo"><div class="mark">🦅</div><div>وصال دليفري<small>WASAL DELIVERY</small></div></div>' +
+        '<div class="topctrls">' +
+          '<button class="topbtn '+(simRunning?'active':'')+'" title="محاكاة تلقائية" onclick="toggleSimulation()">⚡</button>' +
+          '<button class="topbtn '+(document.body.classList.contains('dark')?'active':'')+'" title="الوضع الليلي" onclick="toggleDarkMode()">🌙</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="stage">' + body + '</div>' +
+    '</div>';
+  requestAnimationFrame(initMaps);
+}
+
+window.addEventListener('online', function(){ render(); toast('عاد الاتصال بالإنترنت ✅'); });
+window.addEventListener('offline', function(){ render(); toast('انقطع الاتصال بالإنترنت','⚠️'); });
+
+render();
+
+if('serviceWorker' in navigator && location.protocol !== 'file:'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+</html>
